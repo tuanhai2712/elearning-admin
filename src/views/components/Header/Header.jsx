@@ -3,10 +3,13 @@ import { Modal, Tooltip } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom'
 import { LogoutOutlined } from '@ant-design/icons';
+import { authSelector } from 'state/auth/reducer';
 import './style.scss';
 
 export default function Header() {
   const history = useHistory();
+  const { user } = useSelector(authSelector);
+  console.log(user)
   // Confirm and logout
   const handleLogout = useCallback(() => {
     Modal.confirm({

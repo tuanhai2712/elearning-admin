@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { Menu } from 'antd';
 import { parentMenu } from 'routeConfig';
 import { useSelector } from 'react-redux';
+import { authSelector } from 'state/auth/reducer';
 const { SubMenu } = Menu;
 
 export default function MenuBar() {
   const history = useHistory();
-  const { position } = useSelector((state) => state.users.profile);
+
+  const { user } = useSelector(authSelector);
   const goTo = (route) => {
     history.push(route);
   };
@@ -15,13 +17,10 @@ export default function MenuBar() {
   return (
     <Menu theme="light" mode="inline">
       {parentMenu.map((item, itemIdx) => {
-        if (item.position && !item.position.includes(position)) {
-          return null;
-        }
         if (item.single) {
           return (
             <Menu.Item
-              selectable={true}
+              selectable="true"
               key={itemIdx}
               icon={item.icon}
               onClick={() => goTo(item.path)}
@@ -33,20 +32,14 @@ export default function MenuBar() {
           return (
             <SubMenu key={itemIdx} icon={item.icon} title={item.title}>
               {item.subItems.map((subItem, subItemIdx) => {
-                if (subItem.position && !subItem.position.includes(position)) {
-                  return null;
-                }
-                if (!subItem.hide) {
-                  return (
-                    <Menu.Item
-                      key={`${itemIdx}-${subItemIdx}`}
-                      onClick={() => goTo(subItem.path)}
-                    >
-                      {subItem.title}
-                    </Menu.Item>
-                  );
-                }
-                return null;
+                return (
+                  <Menu.Item
+                    key={subItemIdx}
+                    onClick={() => goTo(subItem.path)}
+                  >
+                    {subItem.title}
+                  </Menu.Item>
+                );
               })}
             </SubMenu>
           );

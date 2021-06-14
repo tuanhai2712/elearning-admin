@@ -5,6 +5,8 @@ export const namespace = 'auth';
 const INITAL_STATE = {
   error: null,
   isAuthenticated: false,
+  loading: false,
+  user: null
 };
 
 const slice = createSlice({
@@ -14,19 +16,24 @@ const slice = createSlice({
     signIn: (state, action) => ({
       ...state,
       error: null,
+      loading: true
     }),
     signInFinish: (state, action) => {
-      const { error } = action.payload;
+      const { error, user } = action.payload;
+      console.log(action.payload)
       if (error)
         return {
           ...state,
           error: 'Sign in failure',
           isAuthenticated: false,
+          loading: false,
         };
       return {
         ...state,
         isAuthenticated: true,
+        loading: false,
         error: null,
+        user
       };
     },
     signOut: (state, action) => ({

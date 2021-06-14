@@ -4,8 +4,7 @@ import { toast } from 'react-toastify';
 import * as moment from 'moment';
 import { Select } from 'antd';
 
-import { STATUS_MESSAGE } from './constants';
-import { dateTimeFormat } from '../utils/constants';
+import { STATUS_MESSAGE, DATE_TIME_FORMAT } from './constants';
 
 // http://modernjavascript.blogspot.com/2013/08/building-better-debounce.html
 export function debounce(func, wait, immediate) {
@@ -165,7 +164,7 @@ export function convertDateToISOForFilter(date) {
 }
 
 // formatDate
-export const formatDate = (date, formatDate = dateTimeFormat) => {
+export const formatDate = (date, formatDate = DATE_TIME_FORMAT) => {
   if (date) {
     date = moment.utc(moment(date));
     return date.isValid() ? date.format(formatDate) : '';

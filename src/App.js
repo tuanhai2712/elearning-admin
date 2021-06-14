@@ -10,19 +10,24 @@ import { routeConfig } from './routeConfig';
 import Login from './views/pages/Login/Login';
 import Main from './views/Main';
 import { createBrowserHistory } from 'history';
+import { authSelector } from 'state/auth/reducer';
+import { useSelector } from 'react-redux';
 const history = createBrowserHistory();
 export function App() {
-  const accessToken = localStorage.getItem('token');
-  if (!accessToken) {
+  const { isAuthenticated } = useSelector(authSelector)
+  if (!isAuthenticated) {
     history.push('/login');
+  }
+  if (isAuthenticated) {
+    history.push('/home');
   }
 
   return (
     <BrowserRouter>
       <Switch>
         <Route path="/login" exact component={Login} />
-        {accessToken && (
-          <Main renderRouteUser={routeConfig} accessToken={accessToken} />
+        {isAuthenticated && (
+          <Main renderRouteUser={routeConfig} accessToken={isAuthenticated} />
         )}
       </Switch>
       <ToastContainer autoClose={TIME_CLOSE_MESSAGE} />

@@ -1,16 +1,33 @@
-import Axios from 'axios';
-import FileSaver from 'file-saver';
-import { clearAllStorage } from './consistentStorage';
+
+import axios from 'axios';
 import {
-  BASE_API_URL,
   STATUS_MESSAGE,
   responseStatus,
 } from './constants';
-import { alertMessage, catchErrorApiCaller, timezone } from './function';
-import history from './history';
-
+import { alertMessage } from './function';
+import { createBrowserHistory } from 'history';
+const history = createBrowserHistory();
 // declare a response interceptor
-Axios.interceptors.response.use(
+
+
+
+export const setToken = async (token = '') => {
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+};
+
+
+export const clearToken = async () => {
+  axios.defaults.headers.common['Authorization'] = '';
+};
+
+const requestAbordCode = 'ECONNABORTED';
+
+axios.defaults.baseURL = '';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+
+axios.defaults.timeout = 5000;
+
+axios.interceptors.response.use(
   (response) => {
     // do something with the response data
     return response;
@@ -56,7 +73,7 @@ Axios.interceptors.response.use(
           });
           break;
         case responseStatus.FOUR01:
-          clearAllStorage();
+          localStorage.clear()
           history.push('/login');
           window.location.reload();
           break;
@@ -72,80 +89,85 @@ Axios.interceptors.response.use(
     }
   }
 );
+const RequestClient = class {
 
-export async function defaultGet(endpoint) {
-  return await Axios({
-    method: 'GET',
-    url: `${BASE_API_URL}/${endpoint}`,
-  });
-}
-
-export async function authGet(token, endpoint) {
-  return await Axios({
-    headers: {
-      Authorization: `Bearer ${token}`,
-      timezone,
-    },
-    method: 'GET',
-    url: `${BASE_API_URL}/${endpoint}`,
-  });
-}
-
-export async function defaultPost(endpoint, method, body) {
-  return await Axios({
-    headers: {
-      timezone,
-    },
-    method: method,
-    url: `${BASE_API_URL}/${endpoint}`,
-    data: body,
-  });
-}
-
-export async function authPost(token, endpoint, method, body) {
-  return await Axios({
-    headers: {
-      Authorization: `Bearer ${token}`,
-      timezone,
-    },
-    method: method,
-    url: `${BASE_API_URL}/${endpoint}`,
-    data: body,
-  });
-}
-
-function getFileName(response) {
-  let filename = '';
-  const disposition = response.headers['content-disposition'];
-  if (disposition && disposition.indexOf('filename') !== -1) {
-    const filenameRegex = /UTF-8(.*)/;
-    const matches = filenameRegex.exec(disposition);
-    if (matches != null && matches[1]) {
-      filename = decodeURIComponent(matches[1].replace(/['"]/g, ''));
-    }
+  constructor() {
+    this.init();
   }
-  return filename;
-}
-
-export async function downloadFile({ endpoint, setLoading, token }) {
-  setLoading(true);
-  try {
-    const res = await Axios({
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      responseType: 'blob',
-      method: 'GET',
-      url: `${BASE_API_URL}/${endpoint}`,
+  async init() {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('epis-token')}`;
+  }
+  async headers(params) {
+    let keys = Object.keys(params);
+    keys.map((key) => {
+      return axios.defaults.headers.common[key] = params[key];
     });
-    const fileName = getFileName(res);
-    if (res && res.data && res.status === 200) {
-      FileSaver.saveAs(new Blob([res.data]), fileName);
-    }
-  } catch (err) {
-    catchErrorApiCaller(err);
-  } finally {
-    setLoading(false);
   }
-}
+
+  async authPost(endpoint, params) {
+    let response = await axios.post(endpoint, params);
+
+    return response;
+  }
+
+  async get(endpoint, params = {}) {
+    try {
+      const response = await axios.get(endpoint, params);
+      return response;
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
+
+  async post(endpoint, body, params = {}) {
+    try {
+      const response = await axios.post(endpoint, body, params);
+      return response;
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
+
+  async put(endpoint, body, params = {}) {
+    try {
+      const response = await axios.put(endpoint, body, params);
+      return response;
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
+
+  async delete(endpoint, body) {
+    try {
+      const response = await axios.delete(endpoint, { data: body });
+      return response;
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
+
+  handleError(error) {
+    if (error.response && error.response.status === 401) {
+    }
+    if (error.code === requestAbordCode || ('response' in error && error.response === undefined)) {
+      error.recall = true;
+    }
+    throw error;
+  }
+
+  async postFormData(endpoint, body, params = {}) {
+    try {
+      const response = await axios.post(endpoint, body, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      return response;
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
+};
+
+const client = new RequestClient();
+
+export { client };
+

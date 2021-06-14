@@ -34,5 +34,6 @@ export const parentMenu = [
     icon: <UserOutlined />,
     title: 'Quản lý tài khoản',
     subItems: userManagement,
+    single: false,
   },
 ];
