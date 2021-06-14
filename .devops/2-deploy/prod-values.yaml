@@ -1,0 +1,17 @@
+ingress:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+livenessProbe:
+  enabled: false
+readinessProbe:
+  enabled: false
+podPorts: {
+  containerPort: 80,
+  protocol: 30000
+}
+service:
+  type: NodePort
+  url:
+  externalPort: 30000
+  internalPort: 80
+  nodePort: 30000

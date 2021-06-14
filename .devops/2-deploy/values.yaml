@@ -1,0 +1,7 @@
+ingress:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+livenessProbe:
+  enabled: false
+readinessProbe:
+  enabled: false

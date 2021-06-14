@@ -1,0 +1,78 @@
+include:
+  - template: Auto-DevOps.gitlab-ci.yml
+
+variables:
+  DOCKERFILE_PATH: .devops/1-build/dockerfile
+  # Config to use ASPNET Core from 3S Helm Charts repo
+  AUTO_DEVOPS_CHART: 3s-charts/auto-deploy-reactjs
+  TEST_DISABLED: "true"
+  CODE_QUALITY_DISABLED: "true"
+  LICENSE_MANAGEMENT_DISABLED: "true"
+  PERFORMANCE_DISABLED: "true"
+  LOAD_PERFORMANCE_DISABLED: "true"
+  SAST_DISABLED: "true"
+  SECRET_DETECTION_DISABLED: "true"
+  DEPENDENCY_SCANNING_DISABLED: "true"
+  CONTAINER_SCANNING_DISABLED: "true"
+  DAST_DISABLED: "true"
+  POSTGRES_ENABLED: "false"
+  KUBE_INGRESS_BASE_DOMAIN: dev.3si.vn
+  HELM_RELEASE_NAME: fe
+  HELM_UPGRADE_VALUES_FILE: .devops/2-deploy/values.yaml
+  HELM_UPGRADE_EXTRA_ARGS: --set service.commonName=
+  MIGRATE_HELM_2T03: "true"
+
+.auto-deploy:
+  image: registry.gitlab.com/gitlab-org/cluster-integration/auto-deploy-image:v2.1.0
+  variables:
+    AUTO_DEVOPS_FORCE_DEPLOY_V2: 1
+
+
+# Customize build job of Auto DevOps to trigger for only 'develop' or 'master' branch
+build:
+  environment:
+    name: $CI_COMMIT_BRANCH
+  tags:
+    - kubernetes
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "master"'
+
+review:
+  environment:
+    url: http://evn-fe.$KUBE_INGRESS_BASE_DOMAIN
+    kubernetes:
+      namespace: 20-exa-dev
+  rules:
+    - if: '$CI_KUBERNETES_ACTIVE == null || $CI_KUBERNETES_ACTIVE == ""'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+
+# Customize production job of Auto DevOps to use custom domain & custom kubernetes namespace
+production_manual:
+  tags:
+    - kubernetes
+  environment:
+    name: production
+    kubernetes:
+      namespace: 20-exa
+  variables:
+    HELM_UPGRADE_VALUES_FILE: .devops/2-deploy/prod-values.yaml
+  rules:
+    - if: '$CI_KUBERNETES_ACTIVE == null || $CI_KUBERNETES_ACTIVE == ""'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      when: manual
+
+# Disable incremental rollout
+rollout 10%:
+  rules:
+    - when: never
+rollout 25%:
+  rules:
+    - when: never
+rollout 50%:
+  rules:
+    - when: never
+rollout 100%:
+  rules:
+    - when: never
