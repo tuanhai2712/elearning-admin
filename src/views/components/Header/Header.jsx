@@ -18,6 +18,7 @@ export default function Header() {
       content: 'Bạn có chắc chắn muốn đăng xuất!',
       onOk() {
         history.push('/login');
+        localStorage.clear();
         window.location.reload();
       },
       onCancel() { },

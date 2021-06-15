@@ -18,9 +18,6 @@ export function App() {
   if (!isAuthenticated) {
     history.push('/login');
   }
-  if (isAuthenticated) {
-    history.push('/home');
-  }
 
   return (
     <BrowserRouter>
