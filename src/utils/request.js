@@ -119,9 +119,9 @@ const RequestClient = class {
     }
   }
 
-  async post(endpoint, body, params = {}) {
+  async post(endpoint, params = {}) {
     try {
-      const response = await axios.post(endpoint, body, params);
+      const response = await axios.post(endpoint, params);
       return response;
     } catch (error) {
       this.handleError(error);

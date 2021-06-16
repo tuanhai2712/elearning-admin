@@ -10,7 +10,6 @@ export default function Login() {
     window.scrollTo(0, 0);
   }, []);
   const { loading, user } = useSelector(authSelector)
-  console.log(user)
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const onLogin = useCallback((values) => {

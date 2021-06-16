@@ -4,33 +4,34 @@ import Homepage from './views/pages/HomePage/HomePage';
 // import UserList from './views/pages/Admin/Users/UserList';
 import UserList from './views/pages/AccountManagement/Users/List'
 import TeacherList from './views/pages/AccountManagement/Teacher/List'
+import BannerList from './views/pages/BannerManagement/List'
 
 const userManagement = [
   {
     title: 'Quản lý người dùng',
-    routeKey: 'UserList',
+    routeKey: 'userList',
     path: '/users',
     component: UserList,
   },
   {
     title: 'Quản lý giáo viên',
-    routeKey: 'UserList',
+    routeKey: 'userList',
     path: '/teachers',
     component: TeacherList,
   },
 ];
 const systemManagement = [
-  {
-    title: 'Quản lý voucher',
-    routeKey: 'UserList',
-    path: '/users',
-    component: UserList,
-  },
+  // {
+  //   title: 'Quản lý voucher',
+  //   routeKey: 'UserList',
+  //   path: '/users',
+  //   component: UserList,
+  // },
   {
     title: 'Quản lý banner',
-    routeKey: 'UserList',
-    path: '/users',
-    component: UserList,
+    routeKey: 'bannerList',
+    path: '/banners',
+    component: BannerList,
   },
 ];
 
@@ -42,7 +43,7 @@ export const routeConfig = [
     component: Homepage,
   },
   ...userManagement,
-  // ...systemManagement,
+  ...systemManagement,
 ];
 
 export const parentMenu = [
@@ -58,10 +59,10 @@ export const parentMenu = [
     subItems: userManagement,
     single: false,
   },
-  // {
-  //   icon: <SettingOutlined />,
-  //   title: 'Quản lý hệ thống',
-  //   subItems: systemManagement,
-  //   single: false,
-  // },
+  {
+    icon: <SettingOutlined />,
+    title: 'Quản lý hệ thống',
+    subItems: systemManagement,
+    single: false,
+  },
 ];

@@ -9,7 +9,6 @@ import './style.scss';
 export default function Header() {
   const history = useHistory();
   const { user } = useSelector(authSelector);
-  console.log(user)
   // Confirm and logout
   const handleLogout = useCallback(() => {
     Modal.confirm({
