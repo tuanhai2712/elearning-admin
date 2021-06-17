@@ -5,20 +5,41 @@ export const namespace = 'banner';
 const INITAL_STATE = {
   error: null,
   loading: false,
-  data: []
+  data: [],
+  uploadResult: false
 };
 
 const slice = createSlice({
   name: namespace,
   initialState: INITAL_STATE,
   reducers: {
+    getBanner: (state, action) => ({
+      ...state,
+      error: null,
+      loading: true
+    }),
+    getBannerFinish: (state, action) => {
+      const { error, data } = action.payload;
+      if (error)
+        return {
+          ...state,
+          error: 'Upload failure',
+          loading: false,
+        };
+      return {
+        ...state,
+        data: data.data,
+        loading: false,
+        error: null,
+      };
+    },
     uploadBanner: (state, action) => ({
       ...state,
       error: null,
       loading: true
     }),
     uploadBannerFinish: (state, action) => {
-      const { error, user } = action.payload;
+      const { error, data } = action.payload;
       if (error)
         return {
           ...state,
@@ -29,6 +50,7 @@ const slice = createSlice({
         ...state,
         loading: false,
         error: null,
+        uploadResult: data.data.success
       };
     },
   },
@@ -36,6 +58,6 @@ const slice = createSlice({
 
 export const reducer = slice.reducer;
 
-export const { uploadBanner, uploadBannerFinish } = slice.actions;
+export const { getBanner, getBannerFinish, uploadBanner, uploadBannerFinish } = slice.actions;
 
 export const bannerSelector = (state) => state[namespace];

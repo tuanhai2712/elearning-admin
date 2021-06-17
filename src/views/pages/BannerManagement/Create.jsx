@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Button,
   Col,
@@ -8,18 +8,22 @@ import {
 import styled from 'styled-components';
 import ImageUploader from 'react-images-upload';
 import { useDispatch, useSelector } from 'react-redux';
-import { uploadBanner } from 'state/banner/reducer';
+import { uploadBanner, bannerSelector } from 'state/banner/reducer';
 export default function ModalCreateBanner({
   visible,
   action,
 }) {
-  const [loading, setLoading] = useState(false);
+  const { loading, uploadResult } = useSelector(bannerSelector)
   const dispatch = useDispatch()
   const [pictures, setPictures] = useState([]);
   const onDrop = (picture) => {
     setPictures(picture);
   }
-
+  useEffect(() => {
+    if (uploadResult) {
+      action()
+    }
+  }, [uploadResult])
   const upload = () => {
     dispatch(uploadBanner(pictures))
   }
@@ -49,7 +53,7 @@ export default function ModalCreateBanner({
                 fileTypeError="Định dạng ảnh không được hỗ trợ!"
                 fileSizeError="Dung lượng file quá lớn!"
               />
-              <Button type="primary" onClick={() => upload()}>
+              <Button type="primary" onClick={() => upload()} disabled={!pictures.length}>
                 Tạo mới
               </Button>
             </div>
