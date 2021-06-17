@@ -1,4 +1,4 @@
-const moduleReducer = require.context('.', true, /index.ts$/);
+const moduleReducer = require.context('.', true, /index.js$/);
 
 const reducers = {};
 let sagas = [];

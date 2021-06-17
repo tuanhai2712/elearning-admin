@@ -1,40 +1,20 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-
+import { authSelector, signIn } from 'state/auth/reducer';
 import { Form, Input, Button, Row, Col, Spin } from 'antd';
-import { useQuery } from 'utils/router';
 import './style.scss';
-import { TooltipButton } from 'views/components/Button';
-const background_app = require('assets/images/cloths.png');
+const background_app = require('assets/images/background.jpg');
 export default function Login() {
   useEffect(() => {
     document.title = 'Đăng nhập';
     window.scrollTo(0, 0);
   }, []);
-  const history = useHistory()
-
-  const [loading, setLoading] = useState(false);
-
+  const { loading, user } = useSelector(authSelector)
   const dispatch = useDispatch();
-
   const [form] = Form.useForm();
-  // Login
   const onLogin = useCallback((values) => {
-    const payload = {
-      username: values.username,
-      password: values.password,
-      rememberMe: values.rememberMe,
-    };
+    dispatch(signIn(values))
   }, []);
-
-  const query = useQuery();
-  // if (
-  //   isValidAccessToken(login.accessToken) &&
-  // ) {
-  //   if (from) return <Redirect to={from} />;
-  //   return <Redirect to="/home" />;
-  // }
 
   return (
     <Spin spinning={loading}>
@@ -51,23 +31,23 @@ export default function Login() {
                 <Col span={24} className="text_center">
                   <img
                     src={
-                      'https://gobonly.com/wp-content/uploads/2021/06/Go-bonly-logo-218x73.png'
+                      'https://onthiielts.com.vn/wp-content/uploads/2019/04/tiw-logo.png?fbclid=IwAR3sUph0GsMb4ylqlGYEhzQtlwgHB9V8yeS4vQfZxXuVjW2_7MaWxzgSq3k'
                     }
                     alt="logo"
-                    width={150}
+                    width={100}
                   />
                 </Col>
               </Row>
               <Row align="middle" type="flex" className="mb-1">
                 <Col span={24} className="text_center">
-                  <h3 className="title_login">Gobonly Administrator</h3>
+                  <h3 className="title_login">Hệ thống quản trị</h3>
                 </Col>
               </Row>
               <Row align="middle" type="flex">
                 <Col span={24}>
                   <Form.Item
                     className="mb-1"
-                    name="username"
+                    name="email"
                     rules={[
                       {
                         required: true,

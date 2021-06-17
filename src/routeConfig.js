@@ -1,15 +1,37 @@
 import React from 'react';
-import { HomeOutlined, UserOutlined } from '@ant-design/icons';
+import { HomeOutlined, UserOutlined, SettingOutlined, SolutionOutlined } from '@ant-design/icons';
 import Homepage from './views/pages/HomePage/HomePage';
-import UserList from './views/pages/Admin/Users/UserList';
+// import UserList from './views/pages/Admin/Users/UserList';
+import UserList from './views/pages/AccountManagement/Users/List'
+import TeacherList from './views/pages/AccountManagement/Teacher/List'
+import BannerList from './views/pages/BannerManagement/List'
 
 const userManagement = [
   {
     title: 'Quản lý người dùng',
-    routeKey: 'UserList',
+    routeKey: 'userList',
     path: '/users',
-    icon: <UserOutlined />,
     component: UserList,
+  },
+  {
+    title: 'Quản lý giáo viên',
+    routeKey: 'userList',
+    path: '/teachers',
+    component: TeacherList,
+  },
+];
+const systemManagement = [
+  // {
+  //   title: 'Quản lý voucher',
+  //   routeKey: 'UserList',
+  //   path: '/users',
+  //   component: UserList,
+  // },
+  {
+    title: 'Quản lý banner',
+    routeKey: 'bannerList',
+    path: '/banners',
+    component: BannerList,
   },
 ];
 
@@ -21,6 +43,7 @@ export const routeConfig = [
     component: Homepage,
   },
   ...userManagement,
+  ...systemManagement,
 ];
 
 export const parentMenu = [
@@ -34,5 +57,12 @@ export const parentMenu = [
     icon: <UserOutlined />,
     title: 'Quản lý tài khoản',
     subItems: userManagement,
+    single: false,
+  },
+  {
+    icon: <SettingOutlined />,
+    title: 'Quản lý hệ thống',
+    subItems: systemManagement,
+    single: false,
   },
 ];

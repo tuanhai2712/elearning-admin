@@ -1,16 +1,22 @@
 import { all, takeEvery, put, call, select, fork } from 'redux-saga/effects';
 import { signIn, signInFinish, signOut, signOutFinish } from './reducer';
-import { getLocalState, setLocalState } from 'utils/localStorage';
-import { get, signInApi, signUpApi } from 'utils/api/callApi';
-
+import { client } from 'utils/request';
+import { Endpoint } from 'utils/endpoint'
+import { TOKEN } from 'utils/constants'
+import { createBrowserHistory } from 'history';
+const history = createBrowserHistory();
 function* checkAuthenticated() {
-  // const token = getLocalState('cabramarket-token');
-  // if (token) return yield put(signInFinish({}))
+  const token = localStorage.getItem(TOKEN);
+  if (token) return yield put(signInFinish({}))
 }
 function* watchSignIn({ payload }) {
-  // const res = yield call(signInApi, '/auth/login', payload);
-  // setLocalState('cabramarket-token', res.data.data.token)
-  // return yield put(signInFinish(res.data))
+  const res = yield call(client.authPost, Endpoint.LOGIN, payload);
+  if (res.data.access_token) {
+    localStorage.setItem(TOKEN, res.data.access_token)
+    history.push('/home')
+    window.location.reload();
+  }
+  return yield put(signInFinish(res.data))
 }
 
 function* watchSignOut({ payload }) {
