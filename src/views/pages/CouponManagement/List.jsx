@@ -9,50 +9,53 @@ import {
   Row,
   Spin,
   Col,
-  Switch,
   Pagination,
   Modal,
-  Radio
+  Radio,
 } from 'antd';
 import {
   PlusOutlined,
-  DeleteOutlined
+  DeleteOutlined,
+  ToolOutlined
 } from '@ant-design/icons';
-import ModalCreateBanner from './Create';
+import ModalCreateCoupon from './Create';
+import ModalEditCoupon from './Edit';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBanner, bannerSelector, updateBanner, deleteBanner } from 'state/banner/reducer';
+import { getCoupon, couponSelector, deleteCoupon } from 'state/coupon/reducer';
 import { BASE_LOCAL_URL } from 'utils/constants';
 import NoResultFound from 'views/components/NoResult/no-result'
+import moment from 'moment'
+import styled from 'styled-components'
 export default function List() {
   useEffect(() => {
     document.title = 'Quản lý banner';
     window.scrollTo(0, 0);
   }, []);
   const dispatch = useDispatch()
-  const { loading, data, total, bannerUpdate } = useSelector(bannerSelector)
-  const [visibleModalCreateBanner, setVisibleModalCreateBanner] = useState(false)
+  const { loading, data, total, couponUpdate } = useSelector(couponSelector)
+  const [visibleModalCreateCoupon, setVisibleModalCreateCoupon] = useState(false)
+  const [visibleModalEditCoupon, setVisibleModalEditCoupon] = useState(false)
+  const [couponEdit, setCouponEdit] = useState(null)
   const [filterConditions, setFilterConditions] = useState({
     page: 1,
     pageSize: 8,
     isActive: true
   })
+
   useEffect(() => {
-    dispatch(getBanner(filterConditions))
-  }, [dispatch, filterConditions])
+    dispatch(getCoupon(filterConditions))
+  }, [filterConditions, dispatch])
   const openCreateBannerModal = () => {
-    setVisibleModalCreateBanner(!visibleModalCreateBanner)
+    setVisibleModalCreateCoupon(!visibleModalCreateCoupon)
   }
 
-  const handleActiveBanner = (checked, item) => {
-    dispatch(updateBanner({ checked, bannerId: item.id, order: item.order, filterConditions }))
-  }
-  const handleDeleteBanner = useCallback((bannerId) => {
+  const handleDeleteCoupon = useCallback((couponId) => {
     Modal.confirm({
       centered: true,
       title: 'Xóa banner',
       content: 'Bạn có chắc chắn muốn xóa banner!',
       onOk() {
-        dispatch(deleteBanner({ bannerId, filterConditions }))
+        dispatch(deleteCoupon({ couponId, filterConditions }))
       },
       onCancel() { },
       okText: 'Đồng ý',
@@ -67,16 +70,45 @@ export default function List() {
       page: 1,
     }))
   };
+  const handleChangePage = useCallback((page) => {
+    setFilterConditions((state) => ({
+      ...state,
+      page,
+    }))
+  }, [])
+
+  const openEditCoupon = (coupon) => {
+    setVisibleModalEditCoupon(!visibleModalEditCoupon);
+    setCouponEdit(coupon)
+  }
+  const closeEditCoupon = () => {
+    setVisibleModalEditCoupon(!visibleModalEditCoupon);
+  }
+
+  const checkActiveCoupon = (activeTo) => {
+    if (new Date() > new Date(activeTo)) return false;
+    return true
+  }
   const renderBanner = () => {
     if (data.length) {
       return data.map((item) => {
         return (
           <Col span={6} key={item.id} style={{ padding: 5, }}>
-            <Spin spinning={item.id === bannerUpdate.id && bannerUpdate.loading}>
-              <img src={`${BASE_LOCAL_URL}/${item.image}`} alt={item.id} style={{ width: '100%', border: '1px solid #b9b6b6' }} />
+            <Spin spinning={item.id === couponUpdate.id && couponUpdate.loading}>
+              <div style={{ width: '100%', textAlign: 'center' }}>
+                <TitleStyled>
+                  {item.title}
+                </TitleStyled>
+              </div>
+              <img src={`${BASE_LOCAL_URL}/${item.thumbnail}`} alt={item.id} style={{ width: '100%', border: '1px solid #b9b6b6' }} />
               <Row align='middle' justify='space-between' style={{ marginTop: 5 }}>
-                <Button onClick={() => handleDeleteBanner(item.id)} style={{ padding: 'unset' }} icon={<DeleteOutlined />}></Button>
-                <Switch defaultChecked={item.is_active === '1' ? true : false} onChange={(checked) => handleActiveBanner(checked, item)} checkedChildren="Bỏ kích hoạt" unCheckedChildren="Kích hoạt" />
+                <div>
+                  <Button onClick={() => handleDeleteCoupon(item.id)} style={{ padding: 'unset', marginRight: 10 }} icon={<DeleteOutlined />}></Button>
+                  {checkActiveCoupon(item.active_to) && <Button onClick={() => openEditCoupon(item)} style={{ padding: 'unset' }} icon={<ToolOutlined />}></Button>}
+                </div>
+                <div>
+                  <span> Ngày hết hạn: {moment(item.active_to).format('DD-MM-YYYY')}</span>
+                </div>
               </Row>
             </Spin>
           </Col>
@@ -84,20 +116,14 @@ export default function List() {
       })
     }
   }
-  const handleChangePage = useCallback((page) => {
-    setFilterConditions((state) => ({
-      ...state,
-      page,
-    }))
-  }, [])
   return (
     <Fragment>
       <div className="container user_list">
         <Row style={{ marginBottom: 10 }} justify="space-between">
           <Col span={6}>
             <Radio.Group onChange={onChangeStatus} value={filterConditions.isActive ? 1 : 0}>
-              <Radio value={1}>Kích hoạt</Radio>
-              <Radio value={0}>Không kích hoạt</Radio>
+              <Radio value={1}>Còn hạn</Radio>
+              <Radio value={0}>Hết hạn</Radio>
             </Radio.Group>
           </Col>
           <Col
@@ -110,7 +136,7 @@ export default function List() {
               icon={<PlusOutlined />}
               onClick={() => openCreateBannerModal()}
             >
-              Tạo banner
+              Tạo phiếu giảm giá
             </Button>
           </Col>
         </Row>
@@ -136,7 +162,13 @@ export default function List() {
           </Row>
         </Spin>
       </div>
-      {visibleModalCreateBanner && <ModalCreateBanner visible={visibleModalCreateBanner} action={() => openCreateBannerModal()} filterConditions={filterConditions} />}
+      {visibleModalCreateCoupon && <ModalCreateCoupon visible={visibleModalCreateCoupon} action={() => openCreateBannerModal()} filterConditions={filterConditions} />}
+      {visibleModalEditCoupon && <ModalEditCoupon visible={visibleModalEditCoupon} action={() => closeEditCoupon()} data={couponEdit} filterConditions={filterConditions} />}
     </Fragment>
   );
 }
+
+const TitleStyled = styled.span`
+  font-weight: 700;
+  color: #001529;
+`
