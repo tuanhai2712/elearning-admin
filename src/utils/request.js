@@ -128,9 +128,9 @@ const RequestClient = class {
     }
   }
 
-  async put(endpoint, body, params = {}) {
+  async put(endpoint, params = {}) {
     try {
-      const response = await axios.put(endpoint, body, params);
+      const response = await axios.put(endpoint, params);
       return response;
     } catch (error) {
       this.handleError(error);

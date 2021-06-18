@@ -1,5 +1,5 @@
 export const BASE_API_URL = process.env.REACT_APP_API_URL;
-export const BASE_LOCAL = process.env.REACT_APP_LOCAL;
+export const BASE_LOCAL_URL = process.env.REACT_APP_LOCAL;
 export const TOKEN = 'ielts-token'
 export const TIME_CLOSE_MESSAGE = 5000;
 export const DEBOUNCE_INPUT_SEARCH_DELAY = 300;

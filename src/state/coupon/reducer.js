@@ -1,17 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
-export const namespace = 'banner';
+export const namespace = 'coupon';
 
-// Reducer with inital state
-const INITAL_STATE = {
+const defaultState = {
   error: null,
   loading: false,
   data: [],
   total: null,
   uploadResult: false,
-  bannerUpdate: {
+  couponUpdate: {
     loading: false,
-    id: null
+    id: null,
+    result: false,
   }
+}
+// Reducer with inital state
+const INITAL_STATE = {
+  ...defaultState
 };
 
 const slice = createSlice({
@@ -21,19 +25,18 @@ const slice = createSlice({
     reset: (state) => {
       return {
         ...state,
-        uploadResult: false,
-        bannerUpdate: {
+        couponUpdate: {
           loading: false,
           id: null,
           result: false
         }
       }
     },
-    getBanner: (state, action) => ({
+    getCoupon: (state) => ({
       ...state,
       loading: true
     }),
-    getBannerFinish: (state, action) => {
+    getCouponFinish: (state, action) => {
       const { error, data } = action.payload;
       if (error)
         return {
@@ -48,12 +51,12 @@ const slice = createSlice({
         loading: false,
       };
     },
-    uploadBanner: (state) => ({
+    createCoupon: (state) => ({
       ...state,
       loading: true
     }),
-    uploadBannerFinish: (state, action) => {
-      const { error, data } = action.payload;
+    createCouponFinish: (state, action) => {
+      const { error } = action.payload;
       if (error)
         return {
           ...state,
@@ -63,24 +66,24 @@ const slice = createSlice({
       return {
         ...state,
         loading: false,
-        uploadResult: data.data.success
+        uploadResult: true
       };
     },
-    updateBanner: (state, action) => {
+    updateCoupon: (state, action) => {
       return {
         ...state,
-        bannerUpdate: {
+        couponUpdate: {
           loading: true,
-          id: action.payload.bannerId,
+          id: action.payload.couponId,
         }
       }
     },
-    updateBannerFinish: (state, action) => {
+    updateCouponFinish: (state, action) => {
       const { error } = action.payload;
       if (error)
         return {
           ...state,
-          bannerUpdate: {
+          couponUpdate: {
             loading: false,
             id: null,
           }
@@ -88,18 +91,19 @@ const slice = createSlice({
       return {
         ...state,
         loading: false,
-        bannerUpdate: {
+        couponUpdate: {
           loading: false,
           id: null,
+          result: true,
         }
       };
     },
-    deleteBanner: (state, action) => {
+    deleteCoupon: (state, action) => {
       return {
         ...state,
-        bannerUpdate: {
+        couponUpdate: {
           loading: true,
-          id: action.payload.bannerId,
+          id: action.payload.couponId,
         }
       }
     },
@@ -108,6 +112,6 @@ const slice = createSlice({
 
 export const reducer = slice.reducer;
 
-export const { reset, getBanner, getBannerFinish, uploadBanner, uploadBannerFinish, updateBanner, updateBannerFinish, deleteBanner } = slice.actions;
+export const { reset, getCoupon, getCouponFinish, createCoupon, createCouponFinish, deleteCoupon, updateCoupon, updateCouponFinish } = slice.actions;
 
-export const bannerSelector = (state) => state[namespace];
+export const couponSelector = (state) => state[namespace];

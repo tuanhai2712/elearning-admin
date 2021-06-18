@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import {
   Button,
-  Col,
   Modal,
   Spin,
 } from 'antd';
 import styled from 'styled-components';
 import ImageUploader from 'react-images-upload';
 import { useDispatch, useSelector } from 'react-redux';
-import { uploadBanner, bannerSelector } from 'state/banner/reducer';
+import { uploadBanner, bannerSelector, reset } from 'state/banner/reducer';
 export default function ModalCreateBanner({
   visible,
   action,
+  filterConditions
 }) {
   const { loading, uploadResult } = useSelector(bannerSelector)
   const dispatch = useDispatch()
@@ -21,11 +21,12 @@ export default function ModalCreateBanner({
   }
   useEffect(() => {
     if (uploadResult) {
+      dispatch(reset())
       action()
     }
   }, [uploadResult])
   const upload = () => {
-    dispatch(uploadBanner(pictures))
+    dispatch(uploadBanner({ pictures, filterConditions }))
   }
   return (
     <ModalStyled
