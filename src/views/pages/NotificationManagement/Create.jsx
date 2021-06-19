@@ -24,6 +24,8 @@ export default function ModalCreateNotification({
   action
 }) {
   const [form] = Form.useForm();
+  const [formWithPost] = Form.useForm();
+  const [formReview] = Form.useForm();
   const dispatch = useDispatch()
   const { create, course, classes } = useSelector(notificationSelector)
   const [sendType, setSendType] = useState(SEND_NOTIFICATION_TYPE_ALL)
@@ -71,7 +73,6 @@ export default function ModalCreateNotification({
     }
 
   };
-
   const selectCourse = (selected) => {
     setCourseSelected(selected)
     setClassesSelected([])
@@ -83,6 +84,7 @@ export default function ModalCreateNotification({
   const changeTab = (key) => {
     setTabSelected(key)
   }
+  console.log(form.getFieldsError())
   return (
     <ModalStyled
       title="Tạo mới thông báo"
@@ -176,7 +178,7 @@ export default function ModalCreateNotification({
             </TabPane>
             <TabPane tab="Thông báo đánh giá lớp" key={TAB_NOTI_CLASS_REVIEW}>
               <Form
-                form={form}
+                form={formReview}
                 layout="vertical"
                 initialValues={{
                   title: '',
@@ -217,11 +219,12 @@ export default function ModalCreateNotification({
             </TabPane>
             <TabPane tab="Thông báo với bài viết" key={TAB_NOTI_WITH_POST}>
               <Form
-                form={form}
+                form={formWithPost}
                 layout="vertical"
                 initialValues={{
                   title: '',
                   content: '',
+                  post: '',
                 }}
                 onFinish={onFinish}
               >
