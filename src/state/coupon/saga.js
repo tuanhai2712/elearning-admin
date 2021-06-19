@@ -1,5 +1,15 @@
 import { all, takeEvery, put, call, fork } from 'redux-saga/effects';
-import { createCoupon, createCouponFinish, getCoupon, getCouponFinish, deleteCoupon, updateCoupon, updateCouponFinish } from './reducer';
+import {
+  createCoupon,
+  createCouponFinish,
+  getCoupon,
+  getCouponFinish,
+  deleteCoupon,
+  updateCoupon,
+  updateCouponFinish,
+  getRequestCoupon,
+  getRequestCouponFinish
+} from './reducer';
 import { client } from 'utils/request';
 import { Endpoint } from 'utils/endpoint'
 import { build } from 'utils/query-string'
@@ -7,6 +17,10 @@ import moment from 'moment'
 function* watchGetCoupon({ payload }) {
   const res = yield call(client.get, `${Endpoint.COUPON}?${build(payload)}`);
   return yield put(getCouponFinish(res))
+}
+function* watchGetRequestCoupon({ payload }) {
+  const res = yield call(client.get, `${Endpoint.COUPON_REQUEST}?${build(payload)}`);
+  return yield put(getRequestCouponFinish(res))
 }
 function* watchCreateCoupon({ payload }) {
   const { formData, filterConditions } = payload
@@ -39,5 +53,6 @@ export function* rootSagas() {
     takeEvery(createCoupon.type, watchCreateCoupon),
     takeEvery(deleteCoupon.type, watchDeleteCoupon),
     takeEvery(updateCoupon.type, watchUpdateCoupon),
+    takeEvery(getRequestCoupon.type, watchGetRequestCoupon),
   ]);
 }

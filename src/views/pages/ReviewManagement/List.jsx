@@ -14,7 +14,7 @@ import {
   PlusOutlined,
 } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAccountUser, accountSelector } from 'state/account/reducer';
+import { getReview, reviewSelector } from 'state/review/reducer';
 import TableData from './TableData'
 import NoResultFound from 'views/components/NoResult/no-result'
 
@@ -28,16 +28,11 @@ export default function List() {
     window.scrollTo(0, 0);
   }, []);
   const dispatch = useDispatch()
-  const { users } = useSelector(accountSelector)
-  const { loading, data, total } = users
-  const [visibleModalCreateNotification, setVisibleModalCreateNotification] = useState(false)
+  const { loading, data, total } = useSelector(reviewSelector)
   const [filterConditions, setFilterConditions] = useState(initialFilterConditions)
   useEffect(() => {
-    dispatch(getAccountUser(filterConditions))
+    dispatch(getReview(filterConditions))
   }, [dispatch, filterConditions])
-  const openCreateUserAccount = () => {
-    setVisibleModalCreateNotification(!visibleModalCreateNotification)
-  }
 
   const handleChangePage = useCallback((page) => {
     setFilterConditions((state) => ({
@@ -46,25 +41,10 @@ export default function List() {
       pageSize: page.pageSize
     }))
   }, [])
+  if (!loading && !data.length) return <NoResultFound />
   return (
     <Fragment>
       <div className="container user_list">
-        <Row style={{ marginBottom: 10 }} justify="end">
-          <Col
-            span={6}
-            className="btn-create-user"
-            style={{ textAlign: 'end' }}
-          >
-            <Button
-              type="primary"
-              icon={<PlusOutlined />}
-              onClick={() => openCreateUserAccount()}
-            >
-              Tạo mới
-            </Button>
-          </Col>
-        </Row>
-        {!loading && !data.length && <NoResultFound />}
         <Col span="24">
           <Table
             showSorterTooltip={false}

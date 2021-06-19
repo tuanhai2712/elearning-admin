@@ -1,10 +1,13 @@
 import React from 'react';
-import { HomeOutlined, UserOutlined, SettingOutlined, SolutionOutlined } from '@ant-design/icons';
+import { HomeOutlined, UserOutlined, SettingOutlined, SoundOutlined, GiftOutlined, FileDoneOutlined } from '@ant-design/icons';
 import Homepage from './views/pages/HomePage/HomePage';
 import UserList from './views/pages/AccountManagement/Users/List'
 import TeacherList from './views/pages/AccountManagement/Teacher/List'
 import BannerList from './views/pages/BannerManagement/List'
-import CouponList from './views/pages/CouponManagement/List'
+import VoucherList from './views/pages/VoucherManagement/List'
+import RequestList from './views/pages/VoucherManagement/RequestList'
+import NotificationList from './views/pages/NotificationManagement/List'
+import ReviewList from './views/pages/ReviewManagement/List'
 
 const userManagement = [
   {
@@ -25,6 +28,18 @@ const systemManagement = [
     component: BannerList,
   },
 ];
+const voucherManagement = [
+  {
+    title: 'Danh sách voucher',
+    path: '/vouchers',
+    component: VoucherList,
+  },
+  {
+    title: 'Danh sách yêu cầu',
+    path: '/voucher-request',
+    component: RequestList,
+  },
+];
 
 export const routeConfig = [
   {
@@ -32,11 +47,18 @@ export const routeConfig = [
     path: '/home',
     component: Homepage,
   },
+
   {
-    title: 'Quản lý phiếu giảm giá',
-    path: '/coupons',
-    component: CouponList,
+    title: 'Quản lý thông báo',
+    path: '/notification',
+    component: NotificationList,
   },
+  {
+    title: 'Quản lý thông báo',
+    path: '/reviews',
+    component: ReviewList,
+  },
+  ...voucherManagement,
   ...userManagement,
   ...systemManagement,
 ];
@@ -49,9 +71,15 @@ export const parentMenu = [
     single: true,
   },
   {
-    icon: <UserOutlined />,
-    title: 'Quản lý phiếu giảm giá',
-    path: '/coupons',
+    icon: <SoundOutlined />,
+    title: 'Quản lý thông báo',
+    path: '/notification',
+    single: true,
+  },
+  {
+    icon: <FileDoneOutlined />,
+    title: 'Quản lý đánh giá',
+    path: '/reviews',
     single: true,
   },
   {
@@ -59,6 +87,11 @@ export const parentMenu = [
     title: 'Quản lý tài khoản',
     subItems: userManagement,
     single: false,
+  },
+  {
+    icon: <GiftOutlined />,
+    title: 'Quản lý voucher',
+    subItems: voucherManagement,
   },
   {
     icon: <SettingOutlined />,

@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 export const namespace = 'coupon';
 
 const defaultState = {
-  error: null,
   loading: false,
   data: [],
   total: null,
@@ -11,6 +10,10 @@ const defaultState = {
     loading: false,
     id: null,
     result: false,
+  },
+  requestCoupon: {
+    data: [],
+    loading: false,
   }
 }
 // Reducer with inital state
@@ -32,6 +35,30 @@ const slice = createSlice({
         }
       }
     },
+    getRequestCoupon: (state) => ({
+      ...state,
+      requestCoupon: {
+        loading: true
+      }
+    }),
+    getRequestCouponFinish: (state, action) => {
+      const { error, data } = action.payload;
+      if (error)
+        return {
+          ...state,
+          requestCoupon: {
+            loading: false
+          }
+        };
+      return {
+        ...state,
+        requestCoupon: {
+          data: data.data,
+          total: data.total,
+          loading: false,
+        }
+      };
+    },
     getCoupon: (state) => ({
       ...state,
       loading: true
@@ -41,7 +68,6 @@ const slice = createSlice({
       if (error)
         return {
           ...state,
-          error: 'Upload failure',
           loading: false,
         };
       return {
@@ -60,7 +86,6 @@ const slice = createSlice({
       if (error)
         return {
           ...state,
-          error: 'Upload failure',
           loading: false,
         };
       return {
@@ -112,6 +137,17 @@ const slice = createSlice({
 
 export const reducer = slice.reducer;
 
-export const { reset, getCoupon, getCouponFinish, createCoupon, createCouponFinish, deleteCoupon, updateCoupon, updateCouponFinish } = slice.actions;
+export const {
+  reset,
+  getCoupon,
+  getCouponFinish,
+  createCoupon,
+  createCouponFinish,
+  deleteCoupon,
+  updateCoupon,
+  updateCouponFinish,
+  getRequestCoupon,
+  getRequestCouponFinish
+} = slice.actions;
 
 export const couponSelector = (state) => state[namespace];
