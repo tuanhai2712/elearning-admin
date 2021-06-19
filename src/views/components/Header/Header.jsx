@@ -3,11 +3,12 @@ import { Modal, Tooltip } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom'
 import { LogoutOutlined } from '@ant-design/icons';
-import { authSelector } from 'state/auth/reducer';
+import { signOut, authSelector } from 'state/auth/reducer';
 import './style.scss';
 
 export default function Header() {
   const history = useHistory();
+  const dispatch = useDispatch()
   const { user } = useSelector(authSelector);
   // Confirm and logout
   const handleLogout = useCallback(() => {
@@ -16,6 +17,7 @@ export default function Header() {
       title: 'Đăng xuất',
       content: 'Bạn có chắc chắn muốn đăng xuất!',
       onOk() {
+        dispatch(signOut())
         history.push('/login');
         localStorage.clear();
         window.location.reload();
@@ -32,7 +34,7 @@ export default function Header() {
     <>
       <div className="menu_user text_right" style={{ color: '#fff' }}>
         <span onClick={showProfile} className="mr-1">
-          123123
+          {user.name}
         </span>
         <Tooltip placement="bottom" title="Đăng xuất">
           <span onClick={handleLogout}>

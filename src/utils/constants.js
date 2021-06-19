@@ -1,6 +1,7 @@
 export const BASE_API_URL = process.env.REACT_APP_API_URL;
 export const BASE_LOCAL_URL = process.env.REACT_APP_LOCAL;
-export const TOKEN = 'ielts-token'
+export const TOKEN = 'accessToken'
+export const STORAGE_PROFILE = 'profile'
 export const TIME_CLOSE_MESSAGE = 5000;
 export const DEBOUNCE_INPUT_SEARCH_DELAY = 300;
 export const DATE_TIME_FORMAT = 'DD/MM/YYYY hh:mm'
@@ -27,3 +28,11 @@ export const ACCEPT = 'Đồng ý';
 export const CANCEL = 'Hủy';
 export const CLOSE = 'Đóng';
 
+// Notification Constants
+export const TAB_NOTI_NORMAL = "normal";
+export const TAB_NOTI_CLASS_REVIEW = "review";
+export const TAB_NOTI_WITH_POST = "post";
+
+export const SEND_NOTIFICATION_TYPE_ALL = 0;
+export const SEND_NOTIFICATION_TO_CLASS = 1;
+// End Notification Constants

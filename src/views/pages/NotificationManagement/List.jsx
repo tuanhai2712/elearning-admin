@@ -13,8 +13,9 @@ import {
 import {
   PlusOutlined,
 } from '@ant-design/icons';
+import ModalCreateNotification from './Create';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAccountUser, accountSelector } from 'state/account/reducer';
+import { getNotification, notificationSelector } from 'state/notification/reducer';
 import TableData from './TableData'
 import NoResultFound from 'views/components/NoResult/no-result'
 
@@ -28,17 +29,22 @@ export default function List() {
     window.scrollTo(0, 0);
   }, []);
   const dispatch = useDispatch()
-  const { users } = useSelector(accountSelector)
-  const { loading, data, total } = users
+  const { loading, data, total, create } = useSelector(notificationSelector)
   const [visibleModalCreateNotification, setVisibleModalCreateNotification] = useState(false)
   const [filterConditions, setFilterConditions] = useState(initialFilterConditions)
   useEffect(() => {
-    dispatch(getAccountUser(filterConditions))
+    dispatch(getNotification(filterConditions))
   }, [dispatch, filterConditions])
-  const openCreateUserAccount = () => {
+  const openCreateNotificationModal = () => {
     setVisibleModalCreateNotification(!visibleModalCreateNotification)
   }
 
+  useEffect(() => {
+    if (create.result) {
+      setFilterConditions(initialFilterConditions)
+      dispatch(getNotification(initialFilterConditions))
+    }
+  }, [create])
   const handleChangePage = useCallback((page) => {
     setFilterConditions((state) => ({
       ...state,
@@ -58,9 +64,9 @@ export default function List() {
             <Button
               type="primary"
               icon={<PlusOutlined />}
-              onClick={() => openCreateUserAccount()}
+              onClick={() => openCreateNotificationModal()}
             >
-              Tạo mới
+              Tạo thông báo
             </Button>
           </Col>
         </Row>
@@ -85,6 +91,7 @@ export default function List() {
           />
         </Col>
       </div>
+      {visibleModalCreateNotification && <ModalCreateNotification visible={visibleModalCreateNotification} action={() => openCreateNotificationModal()} />}
     </Fragment>
   );
 }

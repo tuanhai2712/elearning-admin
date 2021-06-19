@@ -3,6 +3,7 @@ import axios from 'axios';
 import {
   STATUS_MESSAGE,
   responseStatus,
+  TOKEN
 } from './constants';
 import { alertMessage } from './function';
 import { createBrowserHistory } from 'history';
@@ -73,9 +74,9 @@ axios.interceptors.response.use(
           });
           break;
         case responseStatus.FOUR01:
-          localStorage.clear()
-          history.push('/login');
-          window.location.reload();
+          // localStorage.clear()
+          // history.push('/login');
+          // window.location.reload();
           break;
         case responseStatus.FIVE00:
         case responseStatus.FIVE03:
@@ -87,6 +88,7 @@ axios.interceptors.response.use(
           break;
       }
     }
+    return error.response
   }
 );
 const RequestClient = class {
@@ -95,7 +97,7 @@ const RequestClient = class {
     this.init();
   }
   async init() {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('epis-token')}`;
+    axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem(TOKEN)}`;
   }
   async headers(params) {
     let keys = Object.keys(params);

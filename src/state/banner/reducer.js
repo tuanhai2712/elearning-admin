@@ -3,7 +3,6 @@ export const namespace = 'banner';
 
 // Reducer with inital state
 const INITAL_STATE = {
-  error: null,
   loading: false,
   data: [],
   total: null,
@@ -38,7 +37,6 @@ const slice = createSlice({
       if (error)
         return {
           ...state,
-          error: 'Upload failure',
           loading: false,
         };
       return {
@@ -57,7 +55,6 @@ const slice = createSlice({
       if (error)
         return {
           ...state,
-          error: 'Upload failure',
           loading: false,
         };
       return {
