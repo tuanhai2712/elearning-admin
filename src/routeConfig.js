@@ -8,6 +8,7 @@ import VoucherList from './views/pages/VoucherManagement/List'
 import RequestList from './views/pages/VoucherManagement/RequestList'
 import NotificationList from './views/pages/NotificationManagement/List'
 import ReviewList from './views/pages/ReviewManagement/List'
+import PointList from './views/pages/PointManagement/List'
 
 const userManagement = [
   {
@@ -26,6 +27,11 @@ const systemManagement = [
     title: 'Quản lý banner',
     path: '/banners',
     component: BannerList,
+  },
+  {
+    title: 'Quản lý điểm',
+    path: '/points',
+    component: PointList,
   },
 ];
 const voucherManagement = [

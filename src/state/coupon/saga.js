@@ -8,12 +8,19 @@ import {
   updateCoupon,
   updateCouponFinish,
   getRequestCoupon,
-  getRequestCouponFinish
+  getRequestCouponFinish,
+  confirmRequest,
+  deleteRequest
 } from './reducer';
 import { client } from 'utils/request';
 import { Endpoint } from 'utils/endpoint'
 import { build } from 'utils/query-string'
 import moment from 'moment'
+
+const filterConditions = {
+  page: 1,
+  pageSize: 10,
+}
 function* watchGetCoupon({ payload }) {
   const res = yield call(client.get, `${Endpoint.COUPON}?${build(payload)}`);
   return yield put(getCouponFinish(res))
@@ -46,6 +53,14 @@ function* watchDeleteCoupon({ payload }) {
   yield put(updateCouponFinish(res))
   return yield fork(() => watchGetCoupon({ payload: payload.filterConditions }))
 }
+function* watchConfirmRequestCoupon({ payload }) {
+  const res = yield call(client.put, `${Endpoint.COUPON_REQUEST}/${payload.requestId}`, { status: payload.status });
+  return yield fork(() => watchGetRequestCoupon({ payload: filterConditions }))
+}
+function* watchDeleteRequestCoupon({ payload }) {
+  const res = yield call(client.delete, `${Endpoint.COUPON_REQUEST}/${payload.requestId}`);
+  return yield fork(() => watchGetRequestCoupon({ payload: filterConditions }))
+}
 
 export function* rootSagas() {
   yield all([
@@ -54,5 +69,7 @@ export function* rootSagas() {
     takeEvery(deleteCoupon.type, watchDeleteCoupon),
     takeEvery(updateCoupon.type, watchUpdateCoupon),
     takeEvery(getRequestCoupon.type, watchGetRequestCoupon),
+    takeEvery(confirmRequest.type, watchConfirmRequestCoupon),
+    takeEvery(deleteRequest.type, watchDeleteRequestCoupon),
   ]);
 }

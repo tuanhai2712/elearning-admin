@@ -95,22 +95,22 @@ export default function List() {
         return (
           <Col span={6} key={item.id} style={{ padding: 5, }}>
             <Spin spinning={item.id === couponUpdate.id && couponUpdate.loading}>
-              <img src={`${BASE_LOCAL_URL}/${item.thumbnail}`} alt={item.id} style={{ width: '100%', border: '1px solid #b9b6b6' }} />
+              <img src={`${BASE_LOCAL_URL}/${item.thumbnail}`} alt={item.id} style={{ width: '100%', height: 200, objectFit: 'cover', border: '1px solid #b9b6b6' }} />
               <Row align='middle' justify='space-between' style={{ marginTop: 5 }}>
                 <div>
                   <Button onClick={() => handleDeleteCoupon(item.id)} style={{ padding: 'unset', marginRight: 10 }} icon={<DeleteOutlined />}></Button>
                   {checkActiveCoupon(item.active_to) && <Button onClick={() => openEditCoupon(item)} style={{ padding: 'unset' }} icon={<ToolOutlined />}></Button>}
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <TitleStyled>
-                    {item.title}
-                  </TitleStyled>
-                  <PointStyled>
-                    Điểm: {item.point}
-                  </PointStyled>
-                  <TimeActiveTextStyled>Ngày hết hạn: {moment(item.active_to).format('DD-MM-YYYY')}</TimeActiveTextStyled>
-                </div>
               </Row>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <TitleStyled>
+                  {item.title}
+                </TitleStyled>
+                <PointStyled>
+                  Điểm: {item.point}
+                </PointStyled>
+                <TimeActiveTextStyled>Ngày hết hạn: {moment(item.active_to).format('DD-MM-YYYY')}</TimeActiveTextStyled>
+              </div>
             </Spin>
           </Col>
         )

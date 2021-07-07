@@ -1,5 +1,16 @@
 import { all, takeEvery, put, call, fork } from 'redux-saga/effects';
-import { createNotification, createNotificationFinish, getNotification, getNotificationFinish, getCourse, getCourseFinish, getClass, getClassFinish } from './reducer';
+import {
+  createNotification,
+  createNotificationFinish,
+  getNotification,
+  getNotificationFinish,
+  getCourse,
+  getCourseFinish,
+  getClass,
+  getClassFinish,
+  getPost,
+  getPostFinish
+} from './reducer';
 import { client } from 'utils/request';
 import { Endpoint } from 'utils/endpoint'
 import { build } from 'utils/query-string'
@@ -20,6 +31,10 @@ function* watchCreateNotification({ payload }) {
   const res = yield call(client.post, Endpoint.NOTIFICATION, payload);
   return yield put(createNotificationFinish(res))
 }
+function* watchGetPost() {
+  const res = yield call(client.get, Endpoint.POSTS);
+  return yield put(getPostFinish(res))
+}
 
 
 export function* rootSagas() {
@@ -28,6 +43,6 @@ export function* rootSagas() {
     takeEvery(getCourse.type, watchGetCourse),
     takeEvery(getClass.type, watchGetClass),
     takeEvery(createNotification.type, watchCreateNotification),
-
+    takeEvery(getPost.type, watchGetPost),
   ]);
 }

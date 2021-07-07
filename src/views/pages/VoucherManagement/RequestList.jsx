@@ -2,16 +2,20 @@ import React, {
   Fragment,
   useEffect,
   useState,
+  useCallback
 } from 'react';
 import {
   Row,
   Spin,
+  Table,
+  Col
 } from 'antd';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getRequestCoupon, couponSelector } from 'state/coupon/reducer';
 import NoResultFound from 'views/components/NoResult/no-result'
 import styled from 'styled-components'
+import TableDataRequestList from './TableDataRequestList'
 export default function List() {
   useEffect(() => {
     document.title = 'Danh sách yêu cầu đổi voucher';
@@ -22,12 +26,20 @@ export default function List() {
   const { loading, data, total } = requestCoupon
   const [filterConditions, setFilterConditions] = useState({
     page: 1,
-    pageSize: 8,
+    pageSize: 10,
   })
 
   useEffect(() => {
     dispatch(getRequestCoupon(filterConditions))
   }, [filterConditions, dispatch])
+
+  const handleChangePage = useCallback((page) => {
+    setFilterConditions((state) => ({
+      ...state,
+      page: page.current,
+      pageSize: page.pageSize
+    }))
+  }, [])
 
 
   return (
@@ -35,7 +47,26 @@ export default function List() {
       <div className="container user_list">
         {!loading && !data.length && <NoResultFound />}
         <Spin spinning={loading}>
-          <Row type="flex">
+          <Row>
+            <Col span="24">
+              <Table
+                showSorterTooltip={false}
+                dataSource={data}
+                columns={TableDataRequestList()}
+                className="full mt-1"
+                loading={loading}
+                rowKey="id"
+                scroll={{ x: true }}
+                onChange={handleChangePage}
+                pagination={{
+                  current: filterConditions.page,
+                  total: total,
+                  size: filterConditions.pageSize,
+                  showSizeChanger: true,
+                  hideOnSinglePage: false,
+                }}
+              />
+            </Col>
           </Row>
         </Spin>
       </div>

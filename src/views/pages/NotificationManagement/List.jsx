@@ -17,7 +17,6 @@ import ModalCreateNotification from './Create';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNotification, notificationSelector } from 'state/notification/reducer';
 import TableData from './TableData'
-import NoResultFound from 'views/components/NoResult/no-result'
 
 const initialFilterConditions = {
   page: 1,
@@ -70,7 +69,6 @@ export default function List() {
             </Button>
           </Col>
         </Row>
-        {!loading && !data.length && <NoResultFound />}
         <Col span="24">
           <Table
             showSorterTooltip={false}

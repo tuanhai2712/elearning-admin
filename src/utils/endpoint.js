@@ -11,4 +11,8 @@ export const Endpoint = {
   COURSE: BASE_API_URL + '/admin/products',
   CLASS: BASE_API_URL + '/admin/class',
   REVIEW: BASE_API_URL + '/admin/review',
+  TEACHER: BASE_API_URL + '/admin/teacher',
+  CONFIG: BASE_API_URL + '/admin/config',
+  POSTS: BASE_API_URL + '/posts',
+  CONFIG: BASE_API_URL + '/admin/config',
 }

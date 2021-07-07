@@ -14,7 +14,7 @@ const defaultState = {
   requestCoupon: {
     data: [],
     loading: false,
-  }
+  },
 }
 // Reducer with inital state
 const INITAL_STATE = {
@@ -132,6 +132,16 @@ const slice = createSlice({
         }
       }
     },
+    confirmRequest: (state, action) => {
+      return {
+        ...state,
+      }
+    },
+    deleteRequest: (state, action) => {
+      return {
+        ...state,
+      }
+    },
   },
 });
 
@@ -147,7 +157,9 @@ export const {
   updateCoupon,
   updateCouponFinish,
   getRequestCoupon,
-  getRequestCouponFinish
+  getRequestCouponFinish,
+  confirmRequest,
+  deleteRequest,
 } = slice.actions;
 
 export const couponSelector = (state) => state[namespace];

@@ -22,7 +22,7 @@ export default function TableData() {
       },
     },
     {
-      title: 'Nội dung',
+      title: 'Mô tả ngắn',
       render(text, record) {
         return <p>{record.content}</p>;
       },
@@ -36,7 +36,7 @@ export default function TableData() {
     {
       title: 'Ngày gửi',
       render(text, record) {
-        return <p>{moment(record.created_at).format('DD-MM-YYYY HH:mm')}</p>;
+        return <p>{moment(moment.utc(record.created_at).toDate()).local().format('DD-MM-YYYY HH:mm')}</p>;
       },
     },
   ];

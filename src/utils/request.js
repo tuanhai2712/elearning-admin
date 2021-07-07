@@ -63,7 +63,6 @@ axios.interceptors.response.use(
               content: error.response.data.message,
             });
           }
-
           break;
         }
         case responseStatus.FOUR03:
@@ -74,9 +73,9 @@ axios.interceptors.response.use(
           });
           break;
         case responseStatus.FOUR01:
-          // localStorage.clear()
-          // history.push('/login');
-          // window.location.reload();
+          localStorage.clear()
+          history.push('/login');
+          window.location.reload();
           break;
         case responseStatus.FIVE00:
         case responseStatus.FIVE03:

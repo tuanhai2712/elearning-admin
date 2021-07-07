@@ -21,6 +21,10 @@ const INITAL_STATE = {
   bannerUpdate: {
     loading: false,
     id: null
+  },
+  post: {
+    loading: false,
+    id: null
   }
 };
 
@@ -136,6 +140,30 @@ const slice = createSlice({
         }
       };
     },
+    getPost: (state) => ({
+      ...state,
+      post: {
+        loading: true
+      }
+    }),
+    getPostFinish: (state, action) => {
+      const { data } = action.payload;
+      if (!data)
+        return {
+          ...state,
+          post: {
+            data: [],
+            loading: false
+          }
+        };
+      return {
+        ...state,
+        post: {
+          data: data.data,
+          loading: false
+        }
+      };
+    },
 
   },
 });
@@ -151,6 +179,8 @@ export const {
   getCourseFinish,
   getNotification,
   getNotificationFinish,
+  getPost,
+  getPostFinish,
   reset
 } = slice.actions;
 

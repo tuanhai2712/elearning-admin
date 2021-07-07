@@ -73,7 +73,7 @@ export default function List() {
         return (
           <Col span={6} key={item.id} style={{ padding: 5, }}>
             <Spin spinning={item.id === bannerUpdate.id && bannerUpdate.loading}>
-              <img src={`${BASE_LOCAL_URL}/${item.image}`} alt={item.id} style={{ width: '100%', border: '1px solid #b9b6b6' }} />
+              <img src={`${BASE_LOCAL_URL}/${item.image}`} alt={item.id} style={{ width: '100%', height: 200, objectFit: 'cover', border: '1px solid #b9b6b6' }} />
               <Row align='middle' justify='space-between' style={{ marginTop: 5 }}>
                 <Button onClick={() => handleDeleteBanner(item.id)} style={{ padding: 'unset' }} icon={<DeleteOutlined />}></Button>
                 <Switch defaultChecked={item.is_active === '1' ? true : false} onChange={(checked) => handleActiveBanner(checked, item)} checkedChildren="Bỏ kích hoạt" unCheckedChildren="Kích hoạt" />

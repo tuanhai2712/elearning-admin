@@ -14,9 +14,11 @@ import {
 import styled from 'styled-components';
 import ImageUploader from 'react-images-upload';
 import { useDispatch, useSelector } from 'react-redux';
-import { createNotification, getCourse, getClass, notificationSelector, reset } from 'state/notification/reducer';
+import { createNotification, getCourse, getClass, notificationSelector, getPost, reset } from 'state/notification/reducer';
 import { SEND_NOTIFICATION_TYPE_ALL, SEND_NOTIFICATION_TO_CLASS, TAB_NOTI_NORMAL, TAB_NOTI_CLASS_REVIEW, TAB_NOTI_WITH_POST } from 'utils/constants'
-
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import draftToHtml from 'draftjs-to-html';
 const { TabPane } = Tabs;
 const { Option } = Select;
 export default function ModalCreateNotification({
@@ -27,11 +29,12 @@ export default function ModalCreateNotification({
   const [formWithPost] = Form.useForm();
   const [formReview] = Form.useForm();
   const dispatch = useDispatch()
-  const { create, course, classes } = useSelector(notificationSelector)
+  const { create, course, classes, post } = useSelector(notificationSelector)
   const [sendType, setSendType] = useState(SEND_NOTIFICATION_TYPE_ALL)
   const [tabSelected, setTabSelected] = useState(TAB_NOTI_NORMAL)
   const [courseSelected, setCourseSelected] = useState(null)
   const [classesSelected, setClassesSelected] = useState([])
+  const [postSelected, setPostSelected] = useState([])
   const [error, showError] = useState(false);
   const selectSendType = e => {
     if (e.target.value === SEND_NOTIFICATION_TYPE_ALL) {
@@ -42,11 +45,18 @@ export default function ModalCreateNotification({
     setSendType(e.target.value);
   };
 
+  console.log('post', post)
   useEffect(() => {
     if (sendType === SEND_NOTIFICATION_TO_CLASS) {
       dispatch(getCourse({ page: 1, pageSize: 999 }))
     }
+
   }, [sendType])
+  useEffect(() => {
+    if (tabSelected === TAB_NOTI_WITH_POST) {
+      dispatch(getPost({ page: 1, pageSize: 999 }))
+    }
+  }, [tabSelected])
   useEffect(() => {
     if (courseSelected) {
       dispatch(getClass({ page: 1, pageSize: 999, productId: courseSelected }))
@@ -68,6 +78,7 @@ export default function ModalCreateNotification({
         type: sendType,
         content_type: tabSelected,
         classes: classesSelected,
+        data: draftToHtml(values.data),
       }
       dispatch(createNotification(payload))
     }
@@ -80,11 +91,13 @@ export default function ModalCreateNotification({
   const selectClasses = (selected) => {
     setClassesSelected(selected)
   }
+  const selectPost = (selected) => {
+    setPostSelected(selected)
+  }
 
   const changeTab = (key) => {
     setTabSelected(key)
   }
-  console.log(form.getFieldsError())
   return (
     <ModalStyled
       title="Tạo mới thông báo"
@@ -159,6 +172,18 @@ export default function ModalCreateNotification({
                 </Form.Item>
                 <Form.Item
                   name="content"
+                  label="Mô tả ngắn"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Mô tả không được để trống!'
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  name="data"
                   label="Mô tả"
                   rules={[
                     {
@@ -167,7 +192,11 @@ export default function ModalCreateNotification({
                     },
                   ]}
                 >
-                  <Input.TextArea />
+                  <Editor
+                    toolbarClassName="toolbarClassName"
+                    wrapperClassName="wrapperClassName"
+                    editorClassName="editorClassName"
+                  />
                 </Form.Item>
                 <Form.Item>
                   <Button type="primary" htmlType="submit" >
@@ -208,8 +237,9 @@ export default function ModalCreateNotification({
                     },
                   ]}
                 >
-                  <Input.TextArea />
+                  <Input />
                 </Form.Item>
+
                 <Form.Item>
                   <Button type="primary" htmlType="submit" >
                     Tạo mới
@@ -242,19 +272,34 @@ export default function ModalCreateNotification({
                 </Form.Item>
                 <Form.Item
                   name="post"
-                  label="Link bài viết"
+                  label="Bài viết"
                   rules={[
                     {
                       required: true,
-                      message: 'Link bài viết không được để trống!'
+                      message: 'Bài viết không được để trống!'
                     },
                   ]}
                 >
-                  <Input />
+                  <SelectStyled
+                    value={postSelected}
+                    placeholder="Lựa chọn bài viết"
+                    loading={post.loading}
+                    onChange={selectPost}
+                    showSearch
+                    filterOption={(input, option) =>
+                      option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                  >
+                    {post.data && post.data.length && post.data.map((item) => {
+                      return (
+                        <Option value={item.id} key={item.id}>{item.post_title}</Option>
+                      )
+                    })}
+                  </SelectStyled>
                 </Form.Item>
                 <Form.Item
                   name="content"
-                  label="Mô tả"
+                  label="Mô tả ngắn"
                   rules={[
                     {
                       required: true,
@@ -262,8 +307,9 @@ export default function ModalCreateNotification({
                     },
                   ]}
                 >
-                  <Input.TextArea />
+                  <Input />
                 </Form.Item>
+
                 <Form.Item>
                   <Button type="primary" htmlType="submit" >
                     Tạo mới
