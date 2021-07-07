@@ -78,7 +78,9 @@ export default function ModalCreateNotification({
         type: sendType,
         content_type: tabSelected,
         classes: classesSelected,
-        data: draftToHtml(values.data),
+        data: {
+          html: draftToHtml(values.data),
+        },
       }
       dispatch(createNotification(payload))
     }
@@ -96,6 +98,9 @@ export default function ModalCreateNotification({
   }
 
   const changeTab = (key) => {
+    if (key === TAB_NOTI_CLASS_REVIEW) {
+      setSendType(SEND_NOTIFICATION_TO_CLASS)
+    }
     setTabSelected(key)
   }
   return (
@@ -116,7 +121,7 @@ export default function ModalCreateNotification({
           </Col>
           <Col>
             <Radio.Group onChange={selectSendType} value={sendType}>
-              <Radio value={SEND_NOTIFICATION_TYPE_ALL}>Gửi tất cả</Radio>
+              {tabSelected !== TAB_NOTI_CLASS_REVIEW && <Radio value={SEND_NOTIFICATION_TYPE_ALL}>Gửi tất cả</Radio>}
               <Radio value={SEND_NOTIFICATION_TO_CLASS}>Gửi tới lớp</Radio>
             </Radio.Group>
           </Col>
