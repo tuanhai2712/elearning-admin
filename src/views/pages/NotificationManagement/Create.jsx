@@ -33,7 +33,7 @@ export default function ModalCreateNotification({
   const [sendType, setSendType] = useState(SEND_NOTIFICATION_TYPE_ALL)
   const [tabSelected, setTabSelected] = useState(TAB_NOTI_NORMAL)
   const [courseSelected, setCourseSelected] = useState(null)
-  const [classesSelected, setClassesSelected] = useState([])
+  const [classesSelected, setClassesSelected] = useState(null)
   const [postSelected, setPostSelected] = useState([])
   const [error, showError] = useState(false);
   const selectSendType = e => {
@@ -77,7 +77,7 @@ export default function ModalCreateNotification({
         ...values,
         type: sendType,
         content_type: tabSelected,
-        classes: classesSelected,
+        classes: [classesSelected],
         data: {
           html: draftToHtml(values.data),
         },
@@ -138,7 +138,7 @@ export default function ModalCreateNotification({
               </SelectStyled>
             </Col>
             <Col span={12}>
-              <SelectStyled value={classesSelected} placeholder="Lựa chọn lớp" loading={classes.loading} mode="multiple" maxTagCount='responsive' onChange={selectClasses}>
+              <SelectStyled value={classesSelected} placeholder="Lựa chọn lớp" loading={classes.loading} onChange={selectClasses}>
                 {classes.data && classes.data.length && classes.data.map((item) => {
                   return (
                     <Option value={item.id} key={item.id}>{item.name}</Option>
