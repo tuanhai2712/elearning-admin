@@ -13,7 +13,6 @@ import {
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getRequestCoupon, couponSelector } from 'state/coupon/reducer';
-import NoResultFound from 'views/components/NoResult/no-result'
 import styled from 'styled-components'
 import TableDataRequestList from './TableDataRequestList'
 export default function List() {
@@ -45,30 +44,27 @@ export default function List() {
   return (
     <Fragment>
       <div className="container user_list">
-        {!loading && !data.length && <NoResultFound />}
-        <Spin spinning={loading}>
-          <Row>
-            <Col span="24">
-              <Table
-                showSorterTooltip={false}
-                dataSource={data}
-                columns={TableDataRequestList()}
-                className="full mt-1"
-                loading={loading}
-                rowKey="id"
-                scroll={{ x: true }}
-                onChange={handleChangePage}
-                pagination={{
-                  current: filterConditions.page,
-                  total: total,
-                  size: filterConditions.pageSize,
-                  showSizeChanger: true,
-                  hideOnSinglePage: false,
-                }}
-              />
-            </Col>
-          </Row>
-        </Spin>
+        <Row>
+          <Col span="24">
+            <Table
+              showSorterTooltip={false}
+              dataSource={data}
+              columns={TableDataRequestList()}
+              className="full mt-1"
+              loading={loading}
+              rowKey="id"
+              scroll={{ x: true }}
+              onChange={handleChangePage}
+              pagination={{
+                current: filterConditions.page,
+                total: total,
+                size: filterConditions.pageSize,
+                showSizeChanger: true,
+                hideOnSinglePage: false,
+              }}
+            />
+          </Col>
+        </Row>
       </div>
     </Fragment>
   );

@@ -34,7 +34,7 @@ const slice = createSlice({
       return {
         ...state,
         data: data.data,
-        total: data.total,
+        total: data.paging.total,
         loading: false,
       };
     },

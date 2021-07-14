@@ -37,6 +37,7 @@ export default function List() {
       pageSize: page.pageSize
     }))
   }, [])
+  console.log(total)
   return (
     <Fragment>
       <div className="container user_list">
@@ -47,7 +48,7 @@ export default function List() {
             columns={TableData()}
             className="full mt-1"
             loading={loading}
-            rowKey="id"
+            rowKey="email"
             scroll={{ x: true }}
             onChange={handleChangePage}
             pagination={{

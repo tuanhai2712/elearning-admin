@@ -23,11 +23,11 @@ const filterConditions = {
 }
 function* watchGetCoupon({ payload }) {
   const res = yield call(client.get, `${Endpoint.COUPON}?${build(payload)}`);
-  return yield put(getCouponFinish(res))
+  return yield put(getCouponFinish(res.data))
 }
 function* watchGetRequestCoupon({ payload }) {
   const res = yield call(client.get, `${Endpoint.COUPON_REQUEST}?${build(payload)}`);
-  return yield put(getRequestCouponFinish(res))
+  return yield put(getRequestCouponFinish(res.data))
 }
 function* watchCreateCoupon({ payload }) {
   const { formData, filterConditions } = payload

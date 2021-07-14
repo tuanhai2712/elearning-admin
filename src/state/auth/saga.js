@@ -15,9 +15,9 @@ function* checkAuthenticated() {
 
 function* watchSignIn({ payload }) {
   const res = yield call(client.authPost, Endpoint.LOGIN, payload);
-  if (res.data.access_token) {
-    localStorage.setItem(TOKEN, res.data.access_token)
-    localStorage.setItem(STORAGE_PROFILE, JSON.stringify(res.data.user))
+  if (res.status === 200) {
+    localStorage.setItem(TOKEN, res.data.data.access_token)
+    localStorage.setItem(STORAGE_PROFILE, JSON.stringify(res.data.data.user))
     history.push('/home')
     window.location.reload();
   }
