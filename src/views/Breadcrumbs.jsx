@@ -31,8 +31,10 @@ export const Breadcrumbs = () => {
                 }
               );
             }
+            return null;
           });
       }
+      return null;
     });
     setBreadcrumbs(data);
   }, [currentPath]);

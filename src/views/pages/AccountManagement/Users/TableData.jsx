@@ -24,7 +24,11 @@ export default function TableData() {
     {
       title: 'Sinh nhật',
       render(text, record) {
-        return <span>{record.dob ? moment(record.dob).format('DD-MM-YYYY') : null}</span>;
+        return (
+          <span>
+            {record.dob ? moment(record.dob).format('DD-MM-YYYY') : null}
+          </span>
+        );
       },
     },
     {

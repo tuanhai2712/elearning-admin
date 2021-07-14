@@ -1,6 +1,5 @@
 import { BASE_API_URL } from './constants';
 
-
 export const Endpoint = {
   LOGIN: BASE_API_URL + '/admin/login',
   BANNER: BASE_API_URL + '/admin/banner',
@@ -14,5 +13,4 @@ export const Endpoint = {
   TEACHER: BASE_API_URL + '/admin/teacher',
   CONFIG: BASE_API_URL + '/admin/config',
   POSTS: BASE_API_URL + '/posts',
-  CONFIG: BASE_API_URL + '/admin/config',
-}
+};

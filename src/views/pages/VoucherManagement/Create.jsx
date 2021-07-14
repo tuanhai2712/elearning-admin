@@ -1,52 +1,46 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Button,
-  Modal,
-  Spin,
-  Form,
-  Input,
-  DatePicker,
-  Row,
-  Col
-} from 'antd';
+import { Button, Modal, Spin, Form, Input, DatePicker, Row, Col } from 'antd';
 import styled from 'styled-components';
 import ImageUploader from 'react-images-upload';
 import { useDispatch, useSelector } from 'react-redux';
 import { createCoupon, couponSelector } from 'state/coupon/reducer';
-import moment from 'moment'
+import moment from 'moment';
 export default function ModalCreateBanner({
   visible,
   action,
-  filterConditions
+  filterConditions,
 }) {
   const [form] = Form.useForm();
-  const dispatch = useDispatch()
-  const { loading, uploadResult } = useSelector(couponSelector)
+  const dispatch = useDispatch();
+  const { loading, uploadResult } = useSelector(couponSelector);
   const [thumbnail, setThumnail] = useState(null);
   const [error, setError] = useState(false);
   const onDrop = (picture) => {
     if (picture) {
-      setError(false)
+      setError(false);
     }
     setThumnail(picture);
-  }
+  };
   useEffect(() => {
     if (uploadResult) {
-      action()
+      action();
     }
-  }, [uploadResult])
+  }, [action, uploadResult]);
 
   const onFinish = (values) => {
     if (!thumbnail) {
-      setError(true)
+      setError(true);
     } else {
-      let formData = new FormData()
-      formData.append('thumbnail', thumbnail[0])
-      formData.append('title', values.title)
-      formData.append('point', values.point)
-      formData.append('description', values.description)
-      formData.append('active_to', moment(values.active_to).format('DD-MM-YYYY'))
-      dispatch(createCoupon({ formData, filterConditions }))
+      const formData = new FormData();
+      formData.append('thumbnail', thumbnail[0]);
+      formData.append('title', values.title);
+      formData.append('point', values.point);
+      formData.append('description', values.description);
+      formData.append(
+        'active_to',
+        moment(values.active_to).format('DD-MM-YYYY')
+      );
+      dispatch(createCoupon({ formData, filterConditions }));
     }
   };
   return (
@@ -67,7 +61,7 @@ export default function ModalCreateBanner({
               <UploadImageStyled
                 withIcon={true}
                 label={'Dung lượng ảnh: < 5mb với định dạng: jpg, jpeg, png'}
-                buttonText='Chọn ảnh mô tả'
+                buttonText="Chọn ảnh mô tả"
                 onChange={onDrop}
                 imgExtension={['.jpg', '.png', '.jpeg']}
                 maxFileSize={5242880}
@@ -77,7 +71,11 @@ export default function ModalCreateBanner({
                 singleImage={true}
               />
             </div>
-            {error && <span style={{ color: 'red' }}>Vui lòng lựa chọn ảnh mô tả !</span>}
+            {error && (
+              <span style={{ color: 'red' }}>
+                Vui lòng lựa chọn ảnh mô tả !
+              </span>
+            )}
           </section>
           <Form
             form={form}
@@ -96,7 +94,7 @@ export default function ModalCreateBanner({
               rules={[
                 {
                   required: true,
-                  message: 'Tiêu đề không được để trống!'
+                  message: 'Tiêu đề không được để trống!',
                 },
               ]}
             >
@@ -110,7 +108,7 @@ export default function ModalCreateBanner({
                   rules={[
                     {
                       required: true,
-                      message: 'Ngày hết hạn không được để trống!'
+                      message: 'Ngày hết hạn không được để trống!',
                     },
                   ]}
                 >
@@ -118,7 +116,7 @@ export default function ModalCreateBanner({
                     allowClear={false}
                     format={'DD-MM-YYYY'}
                     defaultValue={moment()}
-                    disabledDate={current => {
+                    disabledDate={(current) => {
                       return current && current < moment();
                     }}
                   />
@@ -131,7 +129,7 @@ export default function ModalCreateBanner({
                   rules={[
                     {
                       required: true,
-                      message: 'Điểm không được để trống!'
+                      message: 'Điểm không được để trống!',
                     },
                   ]}
                 >
@@ -148,14 +146,14 @@ export default function ModalCreateBanner({
               rules={[
                 {
                   required: true,
-                  message: 'Mô tả không được để trống!'
+                  message: 'Mô tả không được để trống!',
                 },
               ]}
             >
               <Input.TextArea />
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit" >
+              <Button type="primary" htmlType="submit">
                 Tạo mới
               </Button>
             </Form.Item>
@@ -166,7 +164,6 @@ export default function ModalCreateBanner({
   );
 }
 
-
 const ModalStyled = styled(Modal)`
   .ant-modal-header .ant-modal-title {
     font-weight: 600;
@@ -176,10 +173,10 @@ const DatePickerStyled = styled(DatePicker)`
   width: 100%;
 `;
 const InputNumberStyled = styled.div`
-  input[type=number]::-webkit-inner-spin-button, 
-  input[type=number]::-webkit-outer-spin-button { 
-    -webkit-appearance: none; 
-    margin: 0; 
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 `;
 
@@ -193,5 +190,4 @@ const UploadImageStyled = styled(ImageUploader)`
       align-items: unset !important;
     }
   }
-`
-
+`;

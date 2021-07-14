@@ -1,44 +1,37 @@
-import React, {
-  Fragment,
-  useEffect,
-  useState,
-  useCallback,
-} from 'react';
-import {
-  Col,
-  Table
-} from 'antd';
-
+import React, { Fragment, useEffect, useState, useCallback } from 'react';
+import { Col, Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getReview, reviewSelector } from 'state/review/reducer';
-import TableData from './TableData'
-import NoResultFound from 'views/components/NoResult/no-result'
+import TableData from './TableData';
+import NoResultFound from 'views/components/NoResult/no-result';
 
 const initialFilterConditions = {
   page: 1,
-  pageSize: 10
-}
+  pageSize: 10,
+};
 export default function List() {
   useEffect(() => {
     document.title = 'Quản lý thông báo';
     window.scrollTo(0, 0);
   }, []);
-  const dispatch = useDispatch()
-  const { loading, data, total } = useSelector(reviewSelector)
-  console.log(total)
-  const [filterConditions, setFilterConditions] = useState(initialFilterConditions)
+  const dispatch = useDispatch();
+  const { loading, data, total } = useSelector(reviewSelector);
+  console.log(total);
+  const [filterConditions, setFilterConditions] = useState(
+    initialFilterConditions
+  );
   useEffect(() => {
-    dispatch(getReview(filterConditions))
-  }, [dispatch, filterConditions])
+    dispatch(getReview(filterConditions));
+  }, [dispatch, filterConditions]);
 
   const handleChangePage = useCallback((page) => {
     setFilterConditions((state) => ({
       ...state,
       page: page.current,
-      pageSize: page.pageSize
-    }))
-  }, [])
-  if (!loading && !data.length) return <NoResultFound />
+      pageSize: page.pageSize,
+    }));
+  }, []);
+  if (!loading && !data.length) return <NoResultFound />;
   return (
     <Fragment>
       <div className="container user_list">

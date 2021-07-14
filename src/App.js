@@ -1,9 +1,5 @@
-import React, { useEffect } from 'react';
-import {
-  BrowserRouter,
-  Switch,
-  Route,
-} from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { TIME_CLOSE_MESSAGE } from './utils/constants';
 import { routeConfig } from './routeConfig';
@@ -14,7 +10,7 @@ import { authSelector } from 'state/auth/reducer';
 import { useSelector } from 'react-redux';
 const history = createBrowserHistory();
 export function App() {
-  const { isAuthenticated } = useSelector(authSelector)
+  const { isAuthenticated } = useSelector(authSelector);
   if (!isAuthenticated) {
     history.push('/login');
   }
