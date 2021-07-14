@@ -1,45 +1,33 @@
-import React, {
-  Fragment,
-  useEffect,
-  useState,
-  useCallback
-} from 'react';
-import {
-  Row,
-  Spin,
-  Table,
-  Col
-} from 'antd';
+import React, { Fragment, useEffect, useState, useCallback } from 'react';
+import { Row, Table, Col } from 'antd';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getRequestCoupon, couponSelector } from 'state/coupon/reducer';
-import styled from 'styled-components'
-import TableDataRequestList from './TableDataRequestList'
+import TableDataRequestList from './TableDataRequestList';
 export default function List() {
   useEffect(() => {
     document.title = 'Danh sách yêu cầu đổi voucher';
     window.scrollTo(0, 0);
   }, []);
-  const dispatch = useDispatch()
-  const { requestCoupon } = useSelector(couponSelector)
-  const { loading, data, total } = requestCoupon
+  const dispatch = useDispatch();
+  const { requestCoupon } = useSelector(couponSelector);
+  const { loading, data, total } = requestCoupon;
   const [filterConditions, setFilterConditions] = useState({
     page: 1,
     pageSize: 10,
-  })
+  });
 
   useEffect(() => {
-    dispatch(getRequestCoupon(filterConditions))
-  }, [filterConditions, dispatch])
+    dispatch(getRequestCoupon(filterConditions));
+  }, [filterConditions, dispatch]);
 
   const handleChangePage = useCallback((page) => {
     setFilterConditions((state) => ({
       ...state,
       page: page.current,
-      pageSize: page.pageSize
-    }))
-  }, [])
-
+      pageSize: page.pageSize,
+    }));
+  }, []);
 
   return (
     <Fragment>
@@ -69,18 +57,3 @@ export default function List() {
     </Fragment>
   );
 }
-
-const TitleStyled = styled.span`
-    font-weight: 700;
-    color: #001529;
-  `
-const TimeActiveTextStyled = styled.span`
-    font-weight: 400;
-    font-size: 12px;
-    color: #919496;
-  `
-const PointStyled = styled.span`
-    font-weight: 400;
-    font-size: 12px;
-    color: #919496;
-  `

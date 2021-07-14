@@ -37,14 +37,12 @@ export default function MenuBar() {
                     </Menu.Item>
                   );
                 }
-                return
+                return null;
               })}
             </SubMenu>
           );
         }
-
       })}
-
     </Menu>
   );
 }

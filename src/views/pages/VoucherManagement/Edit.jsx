@@ -1,28 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import {
-  Button,
-  Modal,
-  Spin,
-  Form,
-  Input,
-  DatePicker,
-  Row,
-  Col
-} from 'antd';
+import React, { useEffect } from 'react';
+import { Button, Modal, Spin, Form, Input, DatePicker, Row, Col } from 'antd';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { couponSelector, updateCoupon, reset } from 'state/coupon/reducer';
-import moment from 'moment'
+import moment from 'moment';
 export default function ModalEditBanner({
   visible,
   action,
   data,
-  filterConditions
+  filterConditions,
 }) {
   const [form] = Form.useForm();
-  const dispatch = useDispatch()
-  const { couponUpdate } = useSelector(couponSelector)
-  const { loading, result } = couponUpdate
+  const dispatch = useDispatch();
+  const { couponUpdate } = useSelector(couponSelector);
+  const { loading, result } = couponUpdate;
   useEffect(() => {
     form.setFieldsValue({
       title: data.title,
@@ -30,17 +21,16 @@ export default function ModalEditBanner({
       active_to: moment(data.active_to),
       description: data.description,
     });
-
-  }, [data])
+  }, [data, form]);
   useEffect(() => {
     if (result) {
-      dispatch(reset())
-      action()
+      dispatch(reset());
+      action();
     }
-  }, [result])
+  }, [action, dispatch, result]);
 
   const onFinish = (values) => {
-    dispatch(updateCoupon({ ...values, couponId: data.id, filterConditions }))
+    dispatch(updateCoupon({ ...values, couponId: data.id, filterConditions }));
   };
   return (
     <ModalStyled
@@ -72,7 +62,7 @@ export default function ModalEditBanner({
               rules={[
                 {
                   required: true,
-                  message: 'Tiêu đề không được để trống!'
+                  message: 'Tiêu đề không được để trống!',
                 },
               ]}
             >
@@ -86,7 +76,7 @@ export default function ModalEditBanner({
                   rules={[
                     {
                       required: true,
-                      message: 'Ngày hết hạn không được để trống!'
+                      message: 'Ngày hết hạn không được để trống!',
                     },
                   ]}
                 >
@@ -94,7 +84,7 @@ export default function ModalEditBanner({
                     allowClear={false}
                     format={'DD-MM-YYYY'}
                     defaultValue={moment()}
-                    disabledDate={current => {
+                    disabledDate={(current) => {
                       return current && current < moment();
                     }}
                   />
@@ -107,7 +97,7 @@ export default function ModalEditBanner({
                   rules={[
                     {
                       required: true,
-                      message: 'Điểm không được để trống!'
+                      message: 'Điểm không được để trống!',
                     },
                   ]}
                 >
@@ -124,14 +114,14 @@ export default function ModalEditBanner({
               rules={[
                 {
                   required: true,
-                  message: 'Mô tả không được để trống!'
+                  message: 'Mô tả không được để trống!',
                 },
               ]}
             >
               <Input.TextArea />
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit" >
+              <Button type="primary" htmlType="submit">
                 Cập nhật
               </Button>
             </Form.Item>
@@ -142,7 +132,6 @@ export default function ModalEditBanner({
   );
 }
 
-
 const ModalStyled = styled(Modal)`
   .ant-modal-header .ant-modal-title {
     font-weight: 600;
@@ -152,10 +141,9 @@ const DatePickerStyled = styled(DatePicker)`
   width: 100%;
 `;
 const InputNumberStyled = styled.div`
-  input[type=number]::-webkit-inner-spin-button, 
-  input[type=number]::-webkit-outer-spin-button { 
-    -webkit-appearance: none; 
-    margin: 0; 
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 `;
-

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { authSelector, signIn } from 'state/auth/reducer';
 import { Form, Input, Button, Row, Col, Spin } from 'antd';
@@ -9,12 +9,15 @@ export default function Login() {
     document.title = 'Đăng nhập';
     window.scrollTo(0, 0);
   }, []);
-  const { loading, user } = useSelector(authSelector)
+  const { loading } = useSelector(authSelector);
   const dispatch = useDispatch();
   const [form] = Form.useForm();
-  const onLogin = useCallback((values) => {
-    dispatch(signIn(values))
-  }, []);
+  const onLogin = useCallback(
+    (values) => {
+      dispatch(signIn(values));
+    },
+    [dispatch]
+  );
 
   return (
     <Spin spinning={loading}>
@@ -72,9 +75,7 @@ export default function Login() {
                       },
                     ]}
                   >
-                    <Input.Password
-                      placeholder={'Mật khẩu'}
-                    />
+                    <Input.Password placeholder={'Mật khẩu'} />
                   </Form.Item>
                 </Col>
               </Row>

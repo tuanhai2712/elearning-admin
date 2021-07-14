@@ -1,59 +1,53 @@
-import React, {
-  Fragment,
-  useEffect,
-  useState,
-  useCallback,
-} from 'react';
-import {
-  Col,
-  Table,
-  Button,
-  Row
-} from 'antd';
-import {
-  PlusOutlined,
-} from '@ant-design/icons';
+import React, { Fragment, useEffect, useState, useCallback } from 'react';
+import { Col, Table, Button, Row } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAccountTeacher, accountSelector, reset } from 'state/account/reducer';
-import TableData from './TableData'
-import ModalCreateTeacherAccount from './Create'
+import {
+  getAccountTeacher,
+  accountSelector,
+  reset,
+} from 'state/account/reducer';
+import TableData from './TableData';
+import ModalCreateTeacherAccount from './Create';
 const initialFilterConditions = {
   page: 1,
   pageSize: 10,
-}
+};
 export default function List() {
   useEffect(() => {
     document.title = 'Quản lý giáo viên';
     window.scrollTo(0, 0);
   }, []);
-  const dispatch = useDispatch()
-  const { teachers, create } = useSelector(accountSelector)
-  const { loading, data, total } = teachers
-  const [filterConditions, setFilterConditions] = useState(initialFilterConditions)
-  const [visible, setVisible] = useState(false)
+  const dispatch = useDispatch();
+  const { teachers, create } = useSelector(accountSelector);
+  const { loading, data, total } = teachers;
+  const [filterConditions, setFilterConditions] = useState(
+    initialFilterConditions
+  );
+  const [visible, setVisible] = useState(false);
   useEffect(() => {
-    dispatch(getAccountTeacher(filterConditions))
-  }, [dispatch, filterConditions])
+    dispatch(getAccountTeacher(filterConditions));
+  }, [dispatch, filterConditions]);
 
   const handleChangePage = useCallback((page) => {
     setFilterConditions((state) => ({
       ...state,
       page: page.current,
-      pageSize: page.pageSize
-    }))
-  }, [])
+      pageSize: page.pageSize,
+    }));
+  }, []);
 
-  const openCreateTeacherAccount = () => {
-    setVisible(!visible)
-  }
+  const openCreateTeacherAccount = useCallback(() => {
+    setVisible(!visible);
+  }, [visible]);
 
   useEffect(() => {
     if (create.result) {
-      openCreateTeacherAccount()
-      dispatch(reset())
-      dispatch(getAccountTeacher(initialFilterConditions))
+      openCreateTeacherAccount();
+      dispatch(reset());
+      dispatch(getAccountTeacher(initialFilterConditions));
     }
-  }, [create])
+  }, [create, dispatch, openCreateTeacherAccount]);
   return (
     <Fragment>
       <div className="container user_list">
@@ -93,7 +87,12 @@ export default function List() {
             />
           </Col>
         </Row>
-        {visible && <ModalCreateTeacherAccount visible={visible} action={openCreateTeacherAccount} />}
+        {visible && (
+          <ModalCreateTeacherAccount
+            visible={visible}
+            action={openCreateTeacherAccount}
+          />
+        )}
       </div>
     </Fragment>
   );

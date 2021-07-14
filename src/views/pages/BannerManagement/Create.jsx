@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Button,
-  Modal,
-  Spin,
-} from 'antd';
+import { Button, Modal, Spin } from 'antd';
 import styled from 'styled-components';
 import ImageUploader from 'react-images-upload';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,23 +7,23 @@ import { uploadBanner, bannerSelector, reset } from 'state/banner/reducer';
 export default function ModalCreateBanner({
   visible,
   action,
-  filterConditions
+  filterConditions,
 }) {
-  const { loading, uploadResult } = useSelector(bannerSelector)
-  const dispatch = useDispatch()
+  const { loading, uploadResult } = useSelector(bannerSelector);
+  const dispatch = useDispatch();
   const [pictures, setPictures] = useState([]);
   const onDrop = (picture) => {
     setPictures(picture);
-  }
+  };
   useEffect(() => {
     if (uploadResult) {
-      dispatch(reset())
-      action()
+      dispatch(reset());
+      action();
     }
-  }, [uploadResult])
+  }, [action, dispatch, uploadResult]);
   const upload = () => {
-    dispatch(uploadBanner({ pictures, filterConditions }))
-  }
+    dispatch(uploadBanner({ pictures, filterConditions }));
+  };
   return (
     <ModalStyled
       title="Tạo mới banner"
@@ -46,7 +42,7 @@ export default function ModalCreateBanner({
               <UploadImageStyled
                 withIcon={true}
                 label={'Dung lượng ảnh: < 5mb với định dạng: jpg, jpeg, png'}
-                buttonText='Chọn ảnh'
+                buttonText="Chọn ảnh"
                 onChange={onDrop}
                 imgExtension={['.jpg', '.png', '.jpeg']}
                 maxFileSize={5242880}
@@ -54,7 +50,11 @@ export default function ModalCreateBanner({
                 fileTypeError="Định dạng ảnh không được hỗ trợ!"
                 fileSizeError="Dung lượng file quá lớn!"
               />
-              <Button type="primary" onClick={() => upload()} disabled={!pictures.length}>
+              <Button
+                type="primary"
+                onClick={() => upload()}
+                disabled={!pictures.length}
+              >
                 Tạo mới
               </Button>
             </div>
@@ -64,7 +64,6 @@ export default function ModalCreateBanner({
     </ModalStyled>
   );
 }
-
 
 const ModalStyled = styled(Modal)`
   .ant-modal-header .ant-modal-title {
@@ -82,5 +81,4 @@ const UploadImageStyled = styled(ImageUploader)`
       align-items: unset !important;
     }
   }
-`
-
+`;

@@ -8,31 +8,31 @@ export default function List() {
     document.title = 'Quản lý điểm';
     window.scrollTo(0, 0);
   }, []);
-  const dispatch = useDispatch()
-  const { loading, data } = useSelector(configSelector)
+  const dispatch = useDispatch();
+  const { loading, data } = useSelector(configSelector);
   const [state, setState] = useState({
     per_post: null,
     money_per_point: null,
-  })
+  });
   useEffect(() => {
     if (Object.keys(data).length) {
-      setState({ ...data })
+      setState({ ...data });
     }
-  }, [data])
+  }, [data]);
   useEffect(() => {
-    dispatch(getConfig())
-  }, [])
+    dispatch(getConfig());
+  }, [dispatch]);
 
   const handleChange = (event) => {
-    const { value, name } = event.target
+    const { value, name } = event.target;
     setState((oldState) => ({
       ...oldState,
-      [name]: value
-    }))
-  }
+      [name]: value,
+    }));
+  };
   const save = () => {
-    dispatch(saveConfig(state))
-  }
+    dispatch(saveConfig(state));
+  };
   return (
     <Fragment>
       <Spin spinning={loading}>
@@ -41,7 +41,12 @@ export default function List() {
             <span>Số điểm / Bài viết</span>
           </Col>
           <Col span={3}>
-            <Input name='per_post' value={state.per_post} type="number" onChange={(event) => handleChange(event)} />
+            <Input
+              name="per_post"
+              value={state.per_post}
+              type="number"
+              onChange={(event) => handleChange(event)}
+            />
           </Col>
         </Row>
         <Row style={{ marginBottom: 20, alignItems: 'center' }}>
@@ -49,7 +54,12 @@ export default function List() {
             <span>Số tiền thưởng / Điểm</span>
           </Col>
           <Col span={3}>
-            <Input name='money_per_point' value={state.money_per_point} type="number" onChange={(event) => handleChange(event)} />
+            <Input
+              name="money_per_point"
+              value={state.money_per_point}
+              type="number"
+              onChange={(event) => handleChange(event)}
+            />
           </Col>
         </Row>
         <Button type="primary" onClick={() => save()}>

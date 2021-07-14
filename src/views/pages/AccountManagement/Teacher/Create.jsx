@@ -1,27 +1,14 @@
 import React from 'react';
-import {
-  Button,
-  Modal,
-  Spin,
-  Form,
-  Input,
-  Row,
-  Col,
-  Select
-} from 'antd';
+import { Button, Modal, Spin, Form, Input, Row, Col } from 'antd';
 import styled from 'styled-components';
-import ImageUploader from 'react-images-upload';
 import { useDispatch, useSelector } from 'react-redux';
 import { createAccountTeacher, accountSelector } from 'state/account/reducer';
-export default function ModalCreateTeacherAccount({
-  visible,
-  action
-}) {
+export default function ModalCreateTeacherAccount({ visible, action }) {
   const [form] = Form.useForm();
-  const dispatch = useDispatch()
-  const { create } = useSelector(accountSelector)
+  const dispatch = useDispatch();
+  const { create } = useSelector(accountSelector);
   const onFinish = (values) => {
-    dispatch(createAccountTeacher(values))
+    dispatch(createAccountTeacher(values));
   };
 
   return (
@@ -54,7 +41,7 @@ export default function ModalCreateTeacherAccount({
                   rules={[
                     {
                       required: true,
-                      message: 'Tên giáo viên không được để trống!'
+                      message: 'Tên giáo viên không được để trống!',
                     },
                   ]}
                 >
@@ -68,12 +55,14 @@ export default function ModalCreateTeacherAccount({
                   rules={[
                     {
                       required: true,
-                      message: 'Số điện thoại không được để trống!'
+                      message: 'Số điện thoại không được để trống!',
                     },
                     {
-                      pattern: new RegExp(/([\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/),
-                      message: "Số điện thoại không đúng định dạng!"
-                    }
+                      pattern: new RegExp(
+                        /([+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/
+                      ),
+                      message: 'Số điện thoại không đúng định dạng!',
+                    },
                   ]}
                 >
                   <Input />
@@ -86,12 +75,12 @@ export default function ModalCreateTeacherAccount({
                   rules={[
                     {
                       required: true,
-                      message: 'Email không được để trống!'
+                      message: 'Email không được để trống!',
                     },
                     {
-                      type: "email",
-                      message: "Email không đúng định dạng!"
-                    }
+                      type: 'email',
+                      message: 'Email không đúng định dạng!',
+                    },
                   ]}
                 >
                   <Input />
@@ -106,7 +95,7 @@ export default function ModalCreateTeacherAccount({
                   rules={[
                     {
                       required: true,
-                      message: 'Mật khẩu không được để trống!'
+                      message: 'Mật khẩu không được để trống!',
                     },
                   ]}
                 >
@@ -120,7 +109,7 @@ export default function ModalCreateTeacherAccount({
                   rules={[
                     {
                       required: true,
-                      message: 'Bằng cấp không được để trống!'
+                      message: 'Bằng cấp không được để trống!',
                     },
                   ]}
                 >
@@ -129,36 +118,19 @@ export default function ModalCreateTeacherAccount({
               </Col>
             </Row>
             <Form.Item>
-              <Button type="primary" htmlType="submit" >
+              <Button type="primary" htmlType="submit">
                 Tạo mới
               </Button>
             </Form.Item>
           </Form>
         </Spin>
       </div>
-    </ModalStyled >
+    </ModalStyled>
   );
 }
-
 
 const ModalStyled = styled(Modal)`
   .ant-modal-header .ant-modal-title {
     font-weight: 600;
   }
 `;
-
-const SelectStyled = styled(Select)`
-  width: 100%;
-`;
-const UploadImageStyled = styled(ImageUploader)`
-  .uploadPictureContainer .deleteImage {
-    background: #464dda;
-  }
-
-  .fileContainer .uploadPicturesWrapper {
-    > div {
-      align-items: unset !important;
-    }
-  }
-`
-

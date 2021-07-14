@@ -33,7 +33,6 @@ export default function TableData() {
         return <p>{moment(record.created_ay).format('DD-MM-YYYY: HH:mm')}</p>;
       },
     },
-
   ];
   return columns;
 }

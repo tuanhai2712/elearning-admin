@@ -1,56 +1,52 @@
-import React, {
-  Fragment,
-  useEffect,
-  useState,
-  useCallback,
-} from 'react';
-import {
-  Button,
-  Row,
-  Col,
-  Table
-} from 'antd';
-import {
-  PlusOutlined,
-} from '@ant-design/icons';
+import React, { Fragment, useEffect, useState, useCallback } from 'react';
+import { Button, Row, Col, Table } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import ModalCreateNotification from './Create';
 import { useDispatch, useSelector } from 'react-redux';
-import { getNotification, notificationSelector } from 'state/notification/reducer';
-import TableData from './TableData'
+import {
+  getNotification,
+  notificationSelector,
+} from 'state/notification/reducer';
+import TableData from './TableData';
 
 const initialFilterConditions = {
   page: 1,
-  pageSize: 10
-}
+  pageSize: 10,
+};
 export default function List() {
   useEffect(() => {
     document.title = 'Quản lý thông báo';
     window.scrollTo(0, 0);
   }, []);
-  const dispatch = useDispatch()
-  const { loading, data, total, create } = useSelector(notificationSelector)
-  const [visibleModalCreateNotification, setVisibleModalCreateNotification] = useState(false)
-  const [filterConditions, setFilterConditions] = useState(initialFilterConditions)
+  const dispatch = useDispatch();
+  const { loading, data, total, create } = useSelector(notificationSelector);
+  const [
+    visibleModalCreateNotification,
+    setVisibleModalCreateNotification,
+  ] = useState(false);
+  const [filterConditions, setFilterConditions] = useState(
+    initialFilterConditions
+  );
   useEffect(() => {
-    dispatch(getNotification(filterConditions))
-  }, [dispatch, filterConditions])
+    dispatch(getNotification(filterConditions));
+  }, [dispatch, filterConditions]);
   const openCreateNotificationModal = () => {
-    setVisibleModalCreateNotification(!visibleModalCreateNotification)
-  }
+    setVisibleModalCreateNotification(!visibleModalCreateNotification);
+  };
 
   useEffect(() => {
     if (create.result) {
-      setFilterConditions(initialFilterConditions)
-      dispatch(getNotification(initialFilterConditions))
+      setFilterConditions(initialFilterConditions);
+      dispatch(getNotification(initialFilterConditions));
     }
-  }, [create])
+  }, [create, dispatch]);
   const handleChangePage = useCallback((page) => {
     setFilterConditions((state) => ({
       ...state,
       page: page.current,
-      pageSize: page.pageSize
-    }))
-  }, [])
+      pageSize: page.pageSize,
+    }));
+  }, []);
   return (
     <Fragment>
       <div className="container user_list">
@@ -89,7 +85,12 @@ export default function List() {
           />
         </Col>
       </div>
-      {visibleModalCreateNotification && <ModalCreateNotification visible={visibleModalCreateNotification} action={() => openCreateNotificationModal()} />}
+      {visibleModalCreateNotification && (
+        <ModalCreateNotification
+          visible={visibleModalCreateNotification}
+          action={() => openCreateNotificationModal()}
+        />
+      )}
     </Fragment>
   );
 }
