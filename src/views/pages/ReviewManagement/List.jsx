@@ -5,14 +5,10 @@ import React, {
   useCallback,
 } from 'react';
 import {
-  Button,
-  Row,
   Col,
   Table
 } from 'antd';
-import {
-  PlusOutlined,
-} from '@ant-design/icons';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { getReview, reviewSelector } from 'state/review/reducer';
 import TableData from './TableData'
@@ -29,6 +25,7 @@ export default function List() {
   }, []);
   const dispatch = useDispatch()
   const { loading, data, total } = useSelector(reviewSelector)
+  console.log(total)
   const [filterConditions, setFilterConditions] = useState(initialFilterConditions)
   useEffect(() => {
     dispatch(getReview(filterConditions))

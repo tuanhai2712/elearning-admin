@@ -21,11 +21,11 @@ function* watchGetNotification({ payload }) {
 }
 function* watchGetCourse({ payload }) {
   const res = yield call(client.get, `${Endpoint.COURSE}?${build(payload)}`);
-  return yield put(getCourseFinish(res.data))
+  return yield put(getCourseFinish(res))
 }
 function* watchGetClass({ payload }) {
   const res = yield call(client.get, `${Endpoint.CLASS}?${build(payload)}`);
-  return yield put(getClassFinish(res.data))
+  return yield put(getClassFinish(res))
 }
 function* watchCreateNotification({ payload }) {
   const res = yield call(client.post, Endpoint.NOTIFICATION, payload);

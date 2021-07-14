@@ -21,7 +21,7 @@ function* watchGetAccountTeacher({ payload }) {
 }
 function* watchCreateAccountTeacher({ payload }) {
   const res = yield call(client.post, `${Endpoint.TEACHER}`, payload);
-  return yield put(createAccountTeacherFinish(res))
+  return yield put(createAccountTeacherFinish(res.data))
 }
 
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   Button,
   Modal,
@@ -12,7 +12,7 @@ import {
 import styled from 'styled-components';
 import ImageUploader from 'react-images-upload';
 import { useDispatch, useSelector } from 'react-redux';
-import { createAccountTeacher, accountSelector, reset } from 'state/account/reducer';
+import { createAccountTeacher, accountSelector } from 'state/account/reducer';
 export default function ModalCreateTeacherAccount({
   visible,
   action
@@ -70,6 +70,10 @@ export default function ModalCreateTeacherAccount({
                       required: true,
                       message: 'Số điện thoại không được để trống!'
                     },
+                    {
+                      pattern: new RegExp(/([\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/),
+                      message: "Số điện thoại không đúng định dạng!"
+                    }
                   ]}
                 >
                   <Input />
@@ -84,6 +88,10 @@ export default function ModalCreateTeacherAccount({
                       required: true,
                       message: 'Email không được để trống!'
                     },
+                    {
+                      type: "email",
+                      message: "Email không đúng định dạng!"
+                    }
                   ]}
                 >
                   <Input />

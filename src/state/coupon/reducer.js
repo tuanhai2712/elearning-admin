@@ -43,7 +43,6 @@ const slice = createSlice({
     }),
     getRequestCouponFinish: (state, action) => {
       const { error, data } = action.payload;
-      console.log(action.payload)
       if (error)
         return {
           ...state,
@@ -65,7 +64,7 @@ const slice = createSlice({
       loading: true
     }),
     getCouponFinish: (state, action) => {
-      const { error, data } = action.payload;
+      const { error, data, paging } = action.payload;
       if (error)
         return {
           ...state,
@@ -74,7 +73,7 @@ const slice = createSlice({
       return {
         ...state,
         data: data,
-        total: data.total ? data.total : 0,
+        total: paging.total,
         loading: false,
       };
     },

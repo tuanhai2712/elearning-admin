@@ -25,7 +25,11 @@ const slice = createSlice({
   reducers: {
     reset: (state) => {
       return {
-        ...INITAL_STATE,
+        ...state,
+        create: {
+          loading: false,
+          result: false,
+        },
       }
     },
     getAccountUser: (state) => ({
@@ -47,7 +51,7 @@ const slice = createSlice({
         ...state,
         users: {
           data: data.data,
-          total: data.total,
+          total: data.paging.total,
           loading: false,
         },
       };
@@ -71,7 +75,7 @@ const slice = createSlice({
         ...state,
         teachers: {
           data: data.data,
-          total: data.total,
+          total: data.paging.total,
           loading: false,
         },
       };

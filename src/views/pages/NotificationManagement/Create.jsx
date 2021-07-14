@@ -45,7 +45,6 @@ export default function ModalCreateNotification({
     setSendType(e.target.value);
   };
 
-  console.log('post', post)
   useEffect(() => {
     if (sendType === SEND_NOTIFICATION_TO_CLASS) {
       dispatch(getCourse({ page: 1, pageSize: 999 }))

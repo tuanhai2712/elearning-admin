@@ -14,7 +14,7 @@ import {
   PlusOutlined,
 } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAccountTeacher, accountSelector } from 'state/account/reducer';
+import { getAccountTeacher, accountSelector, reset } from 'state/account/reducer';
 import TableData from './TableData'
 import ModalCreateTeacherAccount from './Create'
 const initialFilterConditions = {
@@ -27,7 +27,7 @@ export default function List() {
     window.scrollTo(0, 0);
   }, []);
   const dispatch = useDispatch()
-  const { teachers } = useSelector(accountSelector)
+  const { teachers, create } = useSelector(accountSelector)
   const { loading, data, total } = teachers
   const [filterConditions, setFilterConditions] = useState(initialFilterConditions)
   const [visible, setVisible] = useState(false)
@@ -46,6 +46,14 @@ export default function List() {
   const openCreateTeacherAccount = () => {
     setVisible(!visible)
   }
+
+  useEffect(() => {
+    if (create.result) {
+      openCreateTeacherAccount()
+      dispatch(reset())
+      dispatch(getAccountTeacher(initialFilterConditions))
+    }
+  }, [create])
   return (
     <Fragment>
       <div className="container user_list">
@@ -72,7 +80,7 @@ export default function List() {
               columns={TableData()}
               className="full mt-1"
               loading={loading}
-              rowKey="id"
+              rowKey="email"
               scroll={{ x: true }}
               onChange={handleChangePage}
               pagination={{
