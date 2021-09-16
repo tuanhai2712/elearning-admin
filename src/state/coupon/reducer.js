@@ -15,10 +15,10 @@ const defaultState = {
     data: [],
     loading: false,
   },
-}
+};
 // Reducer with inital state
 const INITAL_STATE = {
-  ...defaultState
+  ...defaultState,
 };
 
 const slice = createSlice({
@@ -31,15 +31,15 @@ const slice = createSlice({
         couponUpdate: {
           loading: false,
           id: null,
-          result: false
-        }
-      }
+          result: false,
+        },
+      };
     },
     getRequestCoupon: (state) => ({
       ...state,
       requestCoupon: {
-        loading: true
-      }
+        loading: true,
+      },
     }),
     getRequestCouponFinish: (state, action) => {
       const { error, data } = action.payload;
@@ -47,8 +47,8 @@ const slice = createSlice({
         return {
           ...state,
           requestCoupon: {
-            loading: false
-          }
+            loading: false,
+          },
         };
       return {
         ...state,
@@ -56,12 +56,12 @@ const slice = createSlice({
           data: data,
           total: data.total ? data.total : 0,
           loading: false,
-        }
+        },
       };
     },
     getCoupon: (state) => ({
       ...state,
-      loading: true
+      loading: true,
     }),
     getCouponFinish: (state, action) => {
       const { error, data, paging } = action.payload;
@@ -79,7 +79,7 @@ const slice = createSlice({
     },
     createCoupon: (state) => ({
       ...state,
-      loading: true
+      loading: true,
     }),
     createCouponFinish: (state, action) => {
       const { error } = action.payload;
@@ -91,7 +91,7 @@ const slice = createSlice({
       return {
         ...state,
         loading: false,
-        uploadResult: true
+        uploadResult: true,
       };
     },
     updateCoupon: (state, action) => {
@@ -100,8 +100,8 @@ const slice = createSlice({
         couponUpdate: {
           loading: true,
           id: action.payload.couponId,
-        }
-      }
+        },
+      };
     },
     updateCouponFinish: (state, action) => {
       const { error } = action.payload;
@@ -111,7 +111,7 @@ const slice = createSlice({
           couponUpdate: {
             loading: false,
             id: null,
-          }
+          },
         };
       return {
         ...state,
@@ -120,7 +120,7 @@ const slice = createSlice({
           loading: false,
           id: null,
           result: true,
-        }
+        },
       };
     },
     deleteCoupon: (state, action) => {
@@ -129,18 +129,18 @@ const slice = createSlice({
         couponUpdate: {
           loading: true,
           id: action.payload.couponId,
-        }
-      }
+        },
+      };
     },
     confirmRequest: (state, action) => {
       return {
         ...state,
-      }
+      };
     },
     deleteRequest: (state, action) => {
       return {
         ...state,
-      }
+      };
     },
   },
 });

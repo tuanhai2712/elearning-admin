@@ -9,8 +9,8 @@ const INITAL_STATE = {
   uploadResult: false,
   bannerUpdate: {
     loading: false,
-    id: null
-  }
+    id: null,
+  },
 };
 
 const slice = createSlice({
@@ -24,13 +24,13 @@ const slice = createSlice({
         bannerUpdate: {
           loading: false,
           id: null,
-          result: false
-        }
-      }
+          result: false,
+        },
+      };
     },
     getBanner: (state, action) => ({
       ...state,
-      loading: true
+      loading: true,
     }),
     getBannerFinish: (state, action) => {
       const { error, data } = action.payload;
@@ -48,7 +48,7 @@ const slice = createSlice({
     },
     uploadBanner: (state) => ({
       ...state,
-      loading: true
+      loading: true,
     }),
     uploadBannerFinish: (state, action) => {
       const { error, data } = action.payload;
@@ -60,7 +60,7 @@ const slice = createSlice({
       return {
         ...state,
         loading: false,
-        uploadResult: data.data.success
+        uploadResult: data.data.success,
       };
     },
     updateBanner: (state, action) => {
@@ -69,8 +69,8 @@ const slice = createSlice({
         bannerUpdate: {
           loading: true,
           id: action.payload.bannerId,
-        }
-      }
+        },
+      };
     },
     updateBannerFinish: (state, action) => {
       const { error } = action.payload;
@@ -80,7 +80,7 @@ const slice = createSlice({
           bannerUpdate: {
             loading: false,
             id: null,
-          }
+          },
         };
       return {
         ...state,
@@ -88,7 +88,7 @@ const slice = createSlice({
         bannerUpdate: {
           loading: false,
           id: null,
-        }
+        },
       };
     },
     deleteBanner: (state, action) => {
@@ -97,14 +97,23 @@ const slice = createSlice({
         bannerUpdate: {
           loading: true,
           id: action.payload.bannerId,
-        }
-      }
+        },
+      };
     },
   },
 });
 
 export const reducer = slice.reducer;
 
-export const { reset, getBanner, getBannerFinish, uploadBanner, uploadBannerFinish, updateBanner, updateBannerFinish, deleteBanner } = slice.actions;
+export const {
+  reset,
+  getBanner,
+  getBannerFinish,
+  uploadBanner,
+  uploadBannerFinish,
+  updateBanner,
+  updateBannerFinish,
+  deleteBanner,
+} = slice.actions;
 
 export const bannerSelector = (state) => state[namespace];

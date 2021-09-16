@@ -1,21 +1,13 @@
-
 import axios from 'axios';
-import {
-  STATUS_MESSAGE,
-  responseStatus,
-  TOKEN
-} from './constants';
+import { STATUS_MESSAGE, responseStatus, TOKEN } from './constants';
 import { alertMessage } from './function';
 import { createBrowserHistory } from 'history';
 const history = createBrowserHistory();
 // declare a response interceptor
 
-
-
 export const setToken = async (token = '') => {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 };
-
 
 export const clearToken = async () => {
   axios.defaults.headers.common['Authorization'] = '';
@@ -69,11 +61,11 @@ axios.interceptors.response.use(
           alertMessage({
             status: STATUS_MESSAGE.ERROR,
             title: 'Lỗi hệ thống',
-            content: 'Lỗi hệ thống'
+            content: 'Lỗi hệ thống',
           });
           break;
         case responseStatus.FOUR01:
-          localStorage.clear()
+          localStorage.clear();
           history.push('/login');
           window.location.reload();
           break;
@@ -87,26 +79,27 @@ axios.interceptors.response.use(
           break;
       }
     }
-    return error.response
+    return error.response;
   }
 );
 const RequestClient = class {
-
   constructor() {
     this.init();
   }
   async init() {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem(TOKEN)}`;
+    axios.defaults.headers.common[
+      'Authorization'
+    ] = `Bearer ${localStorage.getItem(TOKEN)}`;
   }
   async headers(params) {
-    let keys = Object.keys(params);
+    const keys = Object.keys(params);
     keys.map((key) => {
-      return axios.defaults.headers.common[key] = params[key];
+      return (axios.defaults.headers.common[key] = params[key]);
     });
   }
 
   async authPost(endpoint, params) {
-    let response = await axios.post(endpoint, params);
+    const response = await axios.post(endpoint, params);
 
     return response;
   }
@@ -150,7 +143,10 @@ const RequestClient = class {
   handleError(error) {
     if (error.response && error.response.status === 401) {
     }
-    if (error.code === requestAbordCode || ('response' in error && error.response === undefined)) {
+    if (
+      error.code === requestAbordCode ||
+      ('response' in error && error.response === undefined)
+    ) {
       error.recall = true;
     }
     throw error;
@@ -171,4 +167,3 @@ const RequestClient = class {
 const client = new RequestClient();
 
 export { client };
-

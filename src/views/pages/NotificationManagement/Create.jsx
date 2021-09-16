@@ -141,6 +141,11 @@ export default function ModalCreateNotification({ visible, action }) {
                 placeholder="Lựa chọn khóa học"
                 loading={course.loading}
                 onChange={selectCourse}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+                showSearch
               >
                 {course.data &&
                   course.data.length &&
@@ -159,6 +164,11 @@ export default function ModalCreateNotification({ visible, action }) {
                 placeholder="Lựa chọn lớp"
                 loading={classes.loading}
                 onChange={selectClasses}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+                showSearch
               >
                 {classes.data &&
                   classes.data.length &&

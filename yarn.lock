@@ -10914,6 +10914,11 @@ react-error-overlay@^6.0.7:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.9.tgz#3c743010c9359608c375ecd6bc76f35d93995b0a"
   integrity sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==
 
+react-files@^2.4.9:
+  version "2.4.9"
+  resolved "https://registry.yarnpkg.com/react-files/-/react-files-2.4.9.tgz#77522442678f6c83040540df99febe387fca991c"
+  integrity sha512-TSQpynDOkK+umDSGm2r3SeqLjX2FvmqpThHgnL65fGBLUKbT9wT6nLy4Ab62LeZl/WUX7Qpj4IPn+xMA8Yvw9Q==
+
 react-flip-move@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-flip-move/-/react-flip-move-3.0.4.tgz#261f66101fbc305f9b7b28959c5cf8236413ca74"

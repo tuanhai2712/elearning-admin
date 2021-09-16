@@ -1,14 +1,23 @@
 import React from 'react';
-import { HomeOutlined, UserOutlined, SettingOutlined, SoundOutlined, GiftOutlined, FileDoneOutlined } from '@ant-design/icons';
+import {
+  HomeOutlined,
+  UserOutlined,
+  SettingOutlined,
+  SoundOutlined,
+  GiftOutlined,
+  FileDoneOutlined,
+  BookOutlined,
+} from '@ant-design/icons';
 import Homepage from './views/pages/HomePage/HomePage';
-import UserList from './views/pages/AccountManagement/Users/List'
-import TeacherList from './views/pages/AccountManagement/Teacher/List'
-import BannerList from './views/pages/BannerManagement/List'
-import VoucherList from './views/pages/VoucherManagement/List'
-import RequestList from './views/pages/VoucherManagement/RequestList'
-import NotificationList from './views/pages/NotificationManagement/List'
-import ReviewList from './views/pages/ReviewManagement/List'
-import PointList from './views/pages/PointManagement/List'
+import UserList from './views/pages/AccountManagement/Users/List';
+import TeacherList from './views/pages/AccountManagement/Teacher/List';
+import BannerList from './views/pages/BannerManagement/List';
+import VoucherList from './views/pages/VoucherManagement/List';
+import RequestList from './views/pages/VoucherManagement/RequestList';
+import NotificationList from './views/pages/NotificationManagement/List';
+import ReviewList from './views/pages/ReviewManagement/List';
+import PointList from './views/pages/PointManagement/List';
+import HomeWorkList from './views/pages/HomeWorkManagement/List';
 
 const userManagement = [
   {
@@ -60,9 +69,14 @@ export const routeConfig = [
     component: NotificationList,
   },
   {
-    title: 'Quản lý thông báo',
+    title: 'Quản lý đánh giá',
     path: '/reviews',
     component: ReviewList,
+  },
+  {
+    title: 'Quản lý bài tập',
+    path: '/homework',
+    component: HomeWorkList,
   },
   ...voucherManagement,
   ...userManagement,
@@ -86,6 +100,12 @@ export const parentMenu = [
     icon: <FileDoneOutlined />,
     title: 'Quản lý đánh giá',
     path: '/reviews',
+    single: true,
+  },
+  {
+    icon: <BookOutlined />,
+    title: 'Quản lý bài tập',
+    path: '/homework',
     single: true,
   },
   {
