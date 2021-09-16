@@ -6,7 +6,7 @@ export default function TableData() {
     {
       title: 'Lớp',
       render(text, record) {
-        return <p>{record.class}</p>;
+        return <p>{record.class_name}</p>;
       },
     },
     {
