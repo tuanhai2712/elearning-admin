@@ -12,20 +12,20 @@ const INITAL_STATE = {
   },
   course: {
     data: [],
-    loading: false
+    loading: false,
   },
   classes: {
     data: [],
-    loading: false
+    loading: false,
   },
   bannerUpdate: {
     loading: false,
-    id: null
+    id: null,
   },
   post: {
     loading: false,
-    id: null
-  }
+    id: null,
+  },
 };
 
 const slice = createSlice({
@@ -37,7 +37,7 @@ const slice = createSlice({
         ...state,
         course: {
           data: [],
-          loading: false
+          loading: false,
         },
         create: {
           loading: false,
@@ -45,13 +45,13 @@ const slice = createSlice({
         },
         classes: {
           data: [],
-          loading: false
+          loading: false,
         },
-      }
+      };
     },
     getNotification: (state) => ({
       ...state,
-      loading: true
+      loading: true,
     }),
     getNotificationFinish: (state, action) => {
       const { data } = action.payload;
@@ -63,7 +63,7 @@ const slice = createSlice({
       return {
         ...state,
         data: data.data,
-        total: data.total,
+        total: data.paging.total,
         loading: false,
       };
     },
@@ -72,7 +72,7 @@ const slice = createSlice({
       ...state,
       course: {
         loading: true,
-      }
+      },
     }),
     getCourseFinish: (state, action) => {
       const { data } = action.payload;
@@ -81,22 +81,21 @@ const slice = createSlice({
           ...state,
           course: {
             loading: false,
-          }
+          },
         };
       return {
         ...state,
         course: {
           data: data.data,
           loading: false,
-        }
-
+        },
       };
     },
     getClass: (state) => ({
       ...state,
       classes: {
         loading: true,
-      }
+      },
     }),
     getClassFinish: (state, action) => {
       const { data } = action.payload;
@@ -105,22 +104,22 @@ const slice = createSlice({
           ...state,
           classes: {
             loading: false,
-          }
+          },
         };
       return {
         ...state,
         classes: {
           data: data.data,
           loading: false,
-        }
+        },
       };
     },
     createNotification: (state) => ({
       ...state,
       create: {
         result: false,
-        loading: true
-      }
+        loading: true,
+      },
     }),
     createNotificationFinish: (state, action) => {
       const { data } = action.payload;
@@ -129,22 +128,22 @@ const slice = createSlice({
           ...state,
           create: {
             result: false,
-            loading: false
-          }
+            loading: false,
+          },
         };
       return {
         ...state,
         create: {
           result: true,
-          loading: false
-        }
+          loading: false,
+        },
       };
     },
     getPost: (state) => ({
       ...state,
       post: {
-        loading: true
-      }
+        loading: true,
+      },
     }),
     getPostFinish: (state, action) => {
       const { data } = action.payload;
@@ -153,18 +152,17 @@ const slice = createSlice({
           ...state,
           post: {
             data: [],
-            loading: false
-          }
+            loading: false,
+          },
         };
       return {
         ...state,
         post: {
           data: data.data,
-          loading: false
-        }
+          loading: false,
+        },
       };
     },
-
   },
 });
 
@@ -181,7 +179,7 @@ export const {
   getNotificationFinish,
   getPost,
   getPostFinish,
-  reset
+  reset,
 } = slice.actions;
 
 export const notificationSelector = (state) => state[namespace];

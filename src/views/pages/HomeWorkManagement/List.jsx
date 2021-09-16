@@ -7,7 +7,6 @@ import {
   getHomework,
   homeworkSelector,
   deleteHomework,
-  downloadHomework,
   getCourse,
   getClass,
 } from 'state/homework/reducer';
@@ -83,13 +82,9 @@ export default function List() {
     },
     [dispatch, filterConditions]
   );
-  const handleDownload = useCallback(
-    (event) => {
-      const id = event.currentTarget.dataset.id;
-      dispatch(downloadHomework({ id, filterConditions }));
-    },
-    [dispatch, filterConditions]
-  );
+  const handleDownload = useCallback((key) => {
+    window.open(`https://storage.googleapis.com/tiw/${key}`);
+  }, []);
   const selectCourse = (selected) => {
     setCourseSelected(selected);
   };

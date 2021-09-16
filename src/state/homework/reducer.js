@@ -63,7 +63,7 @@ const slice = createSlice({
       return {
         ...state,
         data: data.data,
-        total: data.total,
+        total: data.paging.total,
         loading: false,
       };
     },
@@ -145,12 +145,6 @@ const slice = createSlice({
         loading: true,
       };
     },
-    downloadHomework: (state, action) => {
-      return {
-        ...state,
-        loading: true,
-      };
-    },
   },
 });
 
@@ -167,7 +161,6 @@ export const {
   getHomeworkFinish,
   reset,
   deleteHomework,
-  downloadHomework,
 } = slice.actions;
 
 export const homeworkSelector = (state) => state[namespace];

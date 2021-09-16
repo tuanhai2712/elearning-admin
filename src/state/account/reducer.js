@@ -6,12 +6,12 @@ const INITAL_STATE = {
   users: {
     loading: false,
     data: [],
-    total: null
+    total: null,
   },
   teachers: {
     loading: false,
     data: [],
-    total: null
+    total: null,
   },
   create: {
     loading: false,
@@ -30,7 +30,7 @@ const slice = createSlice({
           loading: false,
           result: false,
         },
-      }
+      };
     },
     getAccountUser: (state) => ({
       ...state,
@@ -84,8 +84,8 @@ const slice = createSlice({
       ...state,
       create: {
         result: false,
-        loading: true
-      }
+        loading: true,
+      },
     }),
     createAccountTeacherFinish: (state, action) => {
       const { data } = action.payload;
@@ -94,18 +94,17 @@ const slice = createSlice({
           ...state,
           create: {
             result: false,
-            loading: false
-          }
+            loading: false,
+          },
         };
       return {
         ...state,
         create: {
           result: true,
-          loading: false
-        }
+          loading: false,
+        },
       };
     },
-
   },
 });
 
@@ -118,7 +117,7 @@ export const {
   getAccountTeacher,
   getAccountTeacherFinish,
   createAccountTeacher,
-  createAccountTeacherFinish
+  createAccountTeacherFinish,
 } = slice.actions;
 
 export const accountSelector = (state) => state[namespace];

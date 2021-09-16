@@ -43,7 +43,7 @@ export default function TableData(handleDelete, handleDownload, page) {
                   icon={<EyeOutlined />}
                   className="border-none"
                   data-id={record.id}
-                  onClick={handleDownload}
+                  onClick={() => handleDownload(record.key)}
                   style={{ marginRight: 5 }}
                 />
               </Tooltip>

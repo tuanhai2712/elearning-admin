@@ -5,7 +5,7 @@ export const namespace = 'review';
 const INITAL_STATE = {
   loading: false,
   data: [],
-  total: null
+  total: null,
 };
 
 const slice = createSlice({
@@ -17,7 +17,7 @@ const slice = createSlice({
         ...state,
         loading: false,
         data: [],
-      }
+      };
     },
     getReview: (state) => ({
       ...state,
@@ -29,7 +29,6 @@ const slice = createSlice({
         return {
           ...state,
           loading: false,
-
         };
       return {
         ...state,
@@ -38,16 +37,11 @@ const slice = createSlice({
         loading: false,
       };
     },
-
   },
 });
 
 export const reducer = slice.reducer;
 
-export const {
-  reset,
-  getReview,
-  getReviewFinish
-} = slice.actions;
+export const { reset, getReview, getReviewFinish } = slice.actions;
 
 export const reviewSelector = (state) => state[namespace];

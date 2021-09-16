@@ -9,7 +9,6 @@ import {
   getClass,
   getClassFinish,
   deleteHomework,
-  downloadHomework,
 } from './reducer';
 import { client } from 'utils/request';
 import { Endpoint } from 'utils/endpoint';
@@ -37,18 +36,6 @@ function* watchDeleteHomework({ payload }) {
     watchGetHomework({ payload: payload.filterConditions })
   );
 }
-function* watchDownloadHomework({ payload }) {
-  const res = yield call(
-    client.get,
-    `${Endpoint.HOMEWORK}/download/${payload.id}`
-  );
-  if (res.data.data) {
-    window.open(res.data.data.download_url);
-  }
-  return yield fork(() =>
-    watchGetHomework({ payload: payload.filterConditions })
-  );
-}
 
 export function* rootSagas() {
   yield all([
@@ -57,6 +44,5 @@ export function* rootSagas() {
     takeEvery(getClass.type, watchGetClass),
     takeEvery(createHomework.type, watchCreateHomework),
     takeEvery(deleteHomework.type, watchDeleteHomework),
-    takeEvery(downloadHomework.type, watchDownloadHomework),
   ]);
 }
