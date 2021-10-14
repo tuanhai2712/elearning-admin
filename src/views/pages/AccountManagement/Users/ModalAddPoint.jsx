@@ -38,12 +38,15 @@ export default function ModalAddPoint({
       onCancel={action}
       centered={true}
       maskClosable={false}
-      width={300}
+      width={400}
       footer={null}
       className="custom_modal"
     >
-      <div style={{ padding: 24 }}>
+      <div style={{ paddingLeft: 24, paddingRight: 24, paddingBottom: 24 }}>
         <Spin spinning={loading}>
+          <span style={{ fontSize: 12 }}>
+            Nhập số điểm bạn muốn cộng cho người dùng
+          </span>
           <InputNumber
             value={value}
             style={{ width: '100%' }}
