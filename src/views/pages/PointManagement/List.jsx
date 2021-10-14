@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Row, Spin, Input, Col, Button, Divider } from 'antd';
+import { Row, Spin, Input, Col, Button } from 'antd';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getConfig, saveConfig, configSelector } from 'state/config/reducer';
@@ -35,16 +35,10 @@ export default function List() {
   };
   return (
     <Fragment>
-      <div style={{ fontSize: 12 }}>
-        <span>1. Số điểm thưởng khi chia sẻ 1 bài viết</span>
-        <br />
-        <span>2. Đố điểm thưởng khi đóng 1.000.000đ</span>
-      </div>
-      <Divider />
       <Spin spinning={loading}>
         <Row style={{ marginBottom: 20, alignItems: 'center' }}>
           <Col span={3}>
-            <span>Số điểm / Bài viết</span>
+            <span>1. Số điểm thưởng khi chia sẻ 1 bài viết</span>
           </Col>
           <Col span={3}>
             <Input
@@ -57,7 +51,7 @@ export default function List() {
         </Row>
         <Row style={{ marginBottom: 20, alignItems: 'center' }}>
           <Col span={3}>
-            <span>Số tiền thưởng / Điểm</span>
+            <span>2. Đố điểm thưởng khi đóng 1.000.000đ</span>
           </Col>
           <Col span={3}>
             <Input
