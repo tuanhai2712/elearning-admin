@@ -17,6 +17,10 @@ const INITAL_STATE = {
     loading: false,
     result: false,
   },
+  addPoint: {
+    loading: false,
+    result: false,
+  },
 };
 
 const slice = createSlice({
@@ -105,6 +109,32 @@ const slice = createSlice({
         },
       };
     },
+    addPointForUsers: (state) => ({
+      ...state,
+      addPoint: {
+        result: false,
+        loading: true,
+      },
+    }),
+    addPointForUsersFinish: (state, action) => {
+      const { data } = action.payload;
+      console.log(action);
+      if (!data)
+        return {
+          ...state,
+          addPoint: {
+            result: false,
+            loading: false,
+          },
+        };
+      return {
+        ...state,
+        addPoint: {
+          result: true,
+          loading: false,
+        },
+      };
+    },
   },
 });
 
@@ -118,6 +148,8 @@ export const {
   getAccountTeacherFinish,
   createAccountTeacher,
   createAccountTeacherFinish,
+  addPointForUsers,
+  addPointForUsersFinish,
 } = slice.actions;
 
 export const accountSelector = (state) => state[namespace];

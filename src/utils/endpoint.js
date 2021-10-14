@@ -14,4 +14,5 @@ export const Endpoint = {
   CONFIG: BASE_API_URL + '/admin/config',
   POSTS: BASE_API_URL + '/posts',
   HOMEWORK: BASE_API_URL + '/admin/homework',
+  ADD_POINT: BASE_API_URL + '/admin/user/points',
 };

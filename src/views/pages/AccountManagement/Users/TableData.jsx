@@ -37,6 +37,12 @@ export default function TableData() {
         return <span>{record.school}</span>;
       },
     },
+    {
+      title: 'Điểm',
+      render(text, record) {
+        return <span>{record.point}</span>;
+      },
+    },
   ];
   return columns;
 }
