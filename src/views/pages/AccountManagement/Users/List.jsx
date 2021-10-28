@@ -116,6 +116,7 @@ export default function List() {
             visible={visibleModalAddPoint}
             selectedUsers={selectedUsers}
             setSelectedUsers={setSelectedUsers}
+            filterConditions={{ ...filterConditions, search: searchTerm }}
           />
         )}
       </div>

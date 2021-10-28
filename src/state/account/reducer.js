@@ -27,13 +27,9 @@ const slice = createSlice({
   name: namespace,
   initialState: INITAL_STATE,
   reducers: {
-    reset: (state) => {
+    reset: () => {
       return {
-        ...state,
-        create: {
-          loading: false,
-          result: false,
-        },
+        ...INITAL_STATE,
       };
     },
     getAccountUser: (state) => ({

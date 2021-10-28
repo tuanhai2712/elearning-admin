@@ -6,12 +6,14 @@ import {
   getAccountUser,
   addPointForUsers,
   accountSelector,
+  reset,
 } from 'state/account/reducer';
 export default function ModalAddPoint({
   visible,
   action,
   selectedUsers,
   setSelectedUsers,
+  filterConditions,
 }) {
   const dispatch = useDispatch();
   const { addPoint } = useSelector(accountSelector);
@@ -27,10 +29,10 @@ export default function ModalAddPoint({
     if (result) {
       action();
       setSelectedUsers([]);
-      dispatch(getAccountUser({ page: 1, pageSize: 10 }));
+      dispatch(reset());
+      dispatch(getAccountUser(filterConditions));
     }
-  }, [action, dispatch, result, setSelectedUsers]);
-  console.log('addPoint', addPoint);
+  }, [action, dispatch, filterConditions, result, setSelectedUsers]);
   return (
     <ModalStyled
       title="Cấu hình điểm"

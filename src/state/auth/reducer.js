@@ -5,7 +5,7 @@ export const namespace = 'auth';
 const INITAL_STATE = {
   isAuthenticated: false,
   loading: false,
-  user: null
+  user: null,
 };
 
 const slice = createSlice({
@@ -14,7 +14,7 @@ const slice = createSlice({
   reducers: {
     signIn: (state) => ({
       ...state,
-      loading: true
+      loading: true,
     }),
     signInFinish: (state, action) => {
       const { user } = action.payload;
